@@ -60,7 +60,7 @@ RFC-1212 DEFINITIONS ::= BEGIN
           IndexSyntax ::=
               CHOICE {
                   number
-                      INTEGER (0..MAX),
+                      Integer32,
                   string
                       OCTET STRING,
                   object
