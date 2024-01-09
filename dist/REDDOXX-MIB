@@ -1,0 +1,540 @@
+REDDOXX DEFINITIONS ::= BEGIN
+
+IMPORTS
+Counter32, Gauge32, Integer32, OBJECT-TYPE, enterprises, MODULE-IDENTITY, OBJECT-IDENTITY FROM SNMPv2-SMI
+TEXTUAL-CONVENTION, DisplayString, TruthValue FROM SNMPv2-TC;
+
+reddoxx MODULE-IDENTITY
+     LAST-UPDATED "202401090000Z" -- 9 Jan 2024
+     ORGANIZATION "REDDOXX GmbH"
+     CONTACT-INFO
+        "REDOXX GmbH
+        Postal: REDDOXX GmbH
+                Neue Weilheimer Str. 14
+                73230 Kirchheim
+                Deutschland
+        Phone:  +49 7021 92846-0
+        Fax:    +49 7021 92846-99
+        Email:  sales@reddoxx.com
+        
+        Further details: https://www.reddoxx.com/impressum/"
+
+     DESCRIPTION
+        "This MIB implements the REDDOXX OIDs for SNMP v2"
+
+     REVISION "202401090000Z" -- 9 Jan 2024
+     DESCRIPTION
+        "Author: Kevin Ingwersen <kevin.ingwersen@senpro.it>
+        This implementation is soley based off of the official Reddox article.
+        Every key implemented here is augmented after a JSON-ish path scheme.
+        The official list can be found here: https://appliance-2034-admin.docs.reddoxx.com/de/configuration/network#snmp
+        This MIB is designed and designated to make obtaining SNMPv2 values human-readable and -friendly.
+        An official MIB is not provided by Reddoxx."
+
+  ::= { enterprises 31581 }
+
+
+-- Top level
+props     OBJECT IDENTIFIER ::= { reddoxx 22 }
+appliance OBJECT IDENTIFIER ::= { reddoxx 21 }
+storage   OBJECT IDENTIFIER ::= { appliance 1 }
+cpu       OBJECT IDENTIFIER ::= { appliance 2 }
+uptime    OBJECT IDENTIFIER ::= { appliance 3 }
+files     OBJECT IDENTIFIER ::= { appliance 4 }
+
+-- Name mappings: reddoxx.props.* (= ...enterprises.31581.22.*)
+SmtpReceiverConnectionsIn OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 1 }
+
+SmtpReceiverConnectionsOut OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 2 }
+
+SmtpReceiverMessagesReceivedIn OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 3 }
+
+SmtpReceiverMessagesReceivedOut OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 4 }
+
+SmtpReceiverBytesReceivedIn OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 5 }
+
+SmtpReceiverBytesReceivedOut OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 6 }
+
+SmtpReceiverActiveConnections OBJECT-TYPE
+SYNTAX      Gauge32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 7 }
+
+RejectedMessagesBecauseIpBlacklisted OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 8 }
+
+RejectedMessagesBecauseAntiSpoofing OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 9 }
+
+RejectedMessagesBecauseSpf OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 10 }
+
+ValidDkimSignatures OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 11 }
+
+InvalidDkimSignatures OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 1 12 }
+
+SmtpSenderConnectionsIn OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 1 }
+
+SmtpSenderConnectionsOut OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 2 }
+
+SmtpSenderMessagesSentIn OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 3 }
+
+SmtpSenderMessagesSentOut OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 4 }
+
+SmtpSenderBytesSentIn OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 5 }
+
+SmtpSenderBytesSentOut OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 6 }
+
+SmtpSenderActiveConnections OBJECT-TYPE
+SYNTAX      Gauge32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 2 7 }
+
+MessagesWaitingForProcessing OBJECT-TYPE
+SYNTAX      Gauge32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 3 1 }
+
+MessagesWaitingForDelivery OBJECT-TYPE
+SYNTAX      Gauge32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 3 2 }
+
+ArchiveQueueLength OBJECT-TYPE
+SYNTAX      Gauge32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { props 4 1 }
+
+-- Name mappings: reddoxx.appliance.storage.* (= ...enterprises.31581.21.1.*)
+RssMemoryUsageApplianceManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 1 }
+
+RssMemoryUsageMailDepot OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 2 }
+
+RssMemoryUsageSystemManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 3 }
+
+RssMemoryyUsageComplianceLog OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 4 }
+
+RssMemoryUsageSpamfinder OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 5 }
+
+RssMemoryUsageClamav OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 6 }
+
+RssMemoryUsageMongoDB OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 7 }
+
+RssMemoryUsageHaProxy OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 8 }
+
+RssMemoryUsageMailSealer OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 9 }
+
+RssMemoryUsageSmtpReceiver OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 10 }
+
+RssMemoryUsageSmtpSender OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 11 }
+
+RssMemoryUsageLogManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 12 }
+
+RssMemoryUsagePop3Proxy OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 13 }
+
+RssMemoryUsageReddcryptGateway OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 14 }
+
+RssMemoryUsageMailDepotIndex OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { storage 15 }
+
+-- Name mappings: reddoxx.appliance.cpu.* (= ...enterprises.31581.21.2.*)
+CpuUsageApplianceManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 1 }
+
+CpuUsageMailDepot OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 2 }
+
+CpuUsageSystemManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 3 }
+
+CpuUsageComplianceLog OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 4 }
+
+CpuUsageSpamfinder OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 5 }
+
+CpuUsageClamav OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 6 }
+
+CpuUsageMongoDB OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 7 }
+
+CpuUsageHaProxy OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 8 }
+
+CpuUsageMailSealer OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 9 }
+
+CpuUsageSmtpReceiver OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 10 }
+
+CpuUsageSmtpSender OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 11 }
+
+CpuUsageLogManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 12 }
+
+CpuUsagePop3Proxy OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 13 }
+
+CpuUsageReddcryptGateway OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 14 }
+
+CpuUsageMailDepotIndex OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { cpu 15 }
+
+-- Name mappings: reddoxx.appliance.uptime.* (= ...enterprises.31581.21.3.*)
+UptimeApplianceManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 1 }
+
+UptimeMailDepot OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 2 }
+
+UptimeSystemManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 3 }
+
+UptimeComplianceLog OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 4 }
+
+UptimeSpamfinder OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 5 }
+
+UptimeClamav OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 6 }
+
+UptimeMongoDB OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 7 }
+
+UptimeHaProxy OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 8 }
+
+UptimeMailSealer OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 9 }
+
+UptimeSmtpReceiver OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 10 }
+
+UptimeSmtpSender OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 11 }
+
+UptimeLogManager OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 12 }
+
+UptimePop3Proxy OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 13 }
+
+UptimeReddcryptGateway OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 14 }
+
+UptimeMailDepotIndex OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { uptime 15 }
+
+-- Name mappings: reddoxx.appliance.files.* (= ...enterprises.31581.21.4.*)
+OpenFilesTotal OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { files 1 }
+
+OpenFilesContainer OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { files 2 }
+
+OpenFilesIndex OBJECT-TYPE
+SYNTAX      Counter32
+MAX-ACCESS  read-only
+STATUS      current
+DESCRIPTION ""
+::= { files 3 }
+
+END
