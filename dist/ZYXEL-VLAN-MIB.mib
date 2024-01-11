@@ -1,0 +1,66 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-VLAN-MIB.mib
+-- Revision 1.6  2013/12/06 
+
+ZYXEL-VLAN-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI		
+
+	  	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+		
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelVlan MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for Virtual LAN (VLAN)"
+		::= { esMgmt 86 }	
+
+	zyxelVlanSetup  	OBJECT IDENTIFIER ::= { zyxelVlan 1 }
+		
+-- *******************************************************************
+-- *
+-- * zyxelVlanSetup
+-- *
+-- ******************************************************************* 
+
+-- zyxelVlanType
+		zyVlanType OBJECT-TYPE
+        SYNTAX  INTEGER {
+         		dot1Q(1),
+         		portBased(2)
+        }
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      "Set 802.1Q VLAN type or Port Based VLAN type."
+        ::= { zyxelVlanSetup 1 }
+        
+     zyVlanIngressCheckState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      "Enable/Disable tag VLAN Ingress check on the switch. 
+					  If enabled, the Switch discards incoming frames on a port for VLANs that do not include this port in its member set."
+        ::= { zyxelVlanSetup 2 }
+
+END
+

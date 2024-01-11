@@ -1,0 +1,283 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-TACACS-MIB.mib
+-- Revision 1.7  2013/12/06 
+
+ZYXEL-TACACS-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+
+	DisplayString                                          
+	  	FROM SNMPv2-TC
+
+  IpAddress
+      FROM SNMPv2-SMI
+     
+  NOTIFICATION-TYPE
+      FROM SNMPv2-SMI
+  
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelTacacs MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for tacacs"
+		::= { esMgmt 83 }	
+
+	zyxelTacacsServerSetup     	OBJECT IDENTIFIER ::= { zyxelTacacs 1 }
+	zyxelTacacsServerNotifications	OBJECT IDENTIFIER ::= { zyxelTacacs 2 }
+	
+-- *******************************************************************
+-- *
+-- * zyxelTacacsServerSetup
+-- *
+-- *******************************************************************    
+
+--  zyxelTacacsAuthenticationServerSetup
+        zyxelTacacsAuthenticationServerSetup OBJECT IDENTIFIER ::= { zyxelTacacsServerSetup 1 }
+
+--* zyxelTacacsAuthenticationServerMode       
+        zyTacacsAuthenticationServerMode OBJECT-TYPE
+        SYNTAX  INTEGER{
+        		indexPriority(1),
+				roundRobin(2)
+        }
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      	"This field only applies if you configure multiple TACACS+  servers. 
+                      	 select indexPriority and the switch tries to authenticate with the first configured TACACS+  server, 
+                      	 if the TACACS+ server does not respond then this switch tries to authenticate with the second 
+                      	 TACACS+ server. Select roundRobin to alternate between the TACACS+ servers that it sends 
+                      	 authentication requests to."
+        ::= { zyxelTacacsAuthenticationServerSetup 1 }
+
+--* zyxelTacacsAuthenticationServerTimeout
+        zyTacacsAuthenticationServerTimeout OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      	"Specify the amount of time in seconds that the switch waits for an authentication request 
+                      	response from the TACACS+ server."
+        ::= { zyxelTacacsAuthenticationServerSetup 2 }
+
+--*	zyxelTacacsAuthenticationServerTable
+        zyxelTacacsAuthenticationServerTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF  ZyxelTacacsAuthenticationServerEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+                 	"The table contains TACACS+ authentication server configuration."
+        ::= { zyxelTacacsAuthenticationServerSetup 3 }
+        
+		zyxelTacacsAuthenticationServerEntry OBJECT-TYPE
+        SYNTAX	ZyxelTacacsAuthenticationServerEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+					"An entry contains TACACS+ authentication server configuration."
+        INDEX          	{ zyTacacsAuthenticationServerIndex }
+        ::= { zyxelTacacsAuthenticationServerTable 1 }
+
+        ZyxelTacacsAuthenticationServerEntry ::=
+           SEQUENCE {
+        	zyTacacsAuthenticationServerIndex			INTEGER,
+        	zyTacacsAuthenticationServerIpAddress		IpAddress,
+        	zyTacacsAuthenticationServerTcpPort			INTEGER,
+        	zyTacacsAuthenticationServerSharedSecret	DisplayString,  
+        	zyTacacsAuthenticationServerEncryptedSharedSecret	DisplayString  
+           }
+
+        zyTacacsAuthenticationServerIndex OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+                      	"The number representing a TACACS+ server entry"
+        ::= { zyxelTacacsAuthenticationServerEntry 1 }
+
+        zyTacacsAuthenticationServerIpAddress OBJECT-TYPE
+        SYNTAX  IpAddress
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                     	"IP address of an external TACACS+ server"
+        ::= { zyxelTacacsAuthenticationServerEntry 2 }
+
+        zyTacacsAuthenticationServerTcpPort OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                     	"The default port of a TACACS+ server for authentication is 49. 
+                     	you need not change this value unless your netwrok administrator 
+                     	instructs you  to do so."
+        ::= { zyxelTacacsAuthenticationServerEntry 3 }
+
+        zyTacacsAuthenticationServerSharedSecret OBJECT-TYPE
+        SYNTAX  DisplayString
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                     	"Specify a password as the key to be shared between the external TACACS+ server and the switch.
+                     	 This key is not sent over the network. This key must be the same on the external TACACS+ server 
+                     	 and the switch."
+        ::= { zyxelTacacsAuthenticationServerEntry 4 }
+        
+        zyTacacsAuthenticationServerEncryptedSharedSecret OBJECT-TYPE
+        SYNTAX  DisplayString
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+                     	"Specify a password as the key to be shared between the external TACACS+ server and the switch.
+                     	 This key is not sent over the network. This key must be the same on the external TACACS+ server 
+                     	 and the switch."
+        ::= { zyxelTacacsAuthenticationServerEntry 5 }
+
+-- zyxelTacacsAccountingServerSetup
+		zyxelTacacsAccountingServerSetup OBJECT IDENTIFIER ::= { zyxelTacacsServerSetup 2 }
+
+        zyTacacsAccountingServerTimeout OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      	"Specify the amount of time in seconds that the switch waits for an accounting 
+                      	request response from the TACACS+ accounting server."
+        ::= { zyxelTacacsAccountingServerSetup 1 }
+
+--*	zyxelTacacsAccountingServerTable
+        zyxelTacacsAccountingServerTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelTacacsAccountingServerEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+                 	"The table contains TACACS+ accounting server configuration."
+        ::= { zyxelTacacsAccountingServerSetup 2 }
+        
+		zyxelTacacsAccountingServerEntry OBJECT-TYPE
+        SYNTAX	ZyxelTacacsAccountingServerEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+					"An entry contains TACACS+ accounting server configuration."
+        INDEX          	{ zyTacacsAccountingServerIndex }
+        ::= { zyxelTacacsAccountingServerTable 1 }
+
+        ZyxelTacacsAccountingServerEntry ::=
+           SEQUENCE {
+        	zyTacacsAccountingServerIndex			INTEGER,
+        	zyTacacsAccountingServerIpAddress		IpAddress,
+        	zyTacacsAccountingServerTcpPort			INTEGER,
+        	zyTacacsAccountingServerSharedSecret	DisplayString,  
+        	zyTacacsAccountingServerEncryptedSharedSecret	DisplayString  
+           }
+
+        zyTacacsAccountingServerIndex OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+                      	"The number representing a TACACS+ accounting server"
+        ::= { zyxelTacacsAccountingServerEntry 1 }
+
+        zyTacacsAccountingServerIpAddress OBJECT-TYPE
+        SYNTAX  IpAddress
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                     	"IP address of an external TACACS+ accounting server."
+        ::= { zyxelTacacsAccountingServerEntry 2 }
+
+        zyTacacsAccountingServerTcpPort OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                     	"The default port of a TACACS+ accounting server for accounting is 49. 
+                     	You need not change this value unless your network administator instructs you to do so."
+        ::= { zyxelTacacsAccountingServerEntry 3 }
+
+        zyTacacsAccountingServerSharedSecret OBJECT-TYPE
+        SYNTAX  DisplayString
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                     	"Specify a password as the key to be shared between the external TACACS+ accounting server and 
+                     	the switch. This key is not sent over the network. This key must be the same on the external 
+                     	TACACS+ accounting server and the switch"
+        ::= { zyxelTacacsAccountingServerEntry 4 }         
+        
+        zyTacacsAccountingServerEncryptedSharedSecret OBJECT-TYPE
+        SYNTAX  DisplayString
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+                     	"Specify a password as the key to be shared between the external TACACS+ accounting server and 
+                     	the switch. This key is not sent over the network. This key must be the same on the external 
+                     	TACACS+ accounting server and the switch"
+        ::= { zyxelTacacsAccountingServerEntry 5 } 	
+		
+-- *******************************************************************
+-- *
+-- * zyxelTacacsServerNotifications
+-- *
+-- *******************************************************************    
+
+-- zyxelTacacsServerAuthenticationServerUnreachable
+		zyTacacsServerAuthenticationServerUnreachable	NOTIFICATION-TYPE
+		OBJECTS {
+			zyTacacsAccountingServerIndex
+		}
+		STATUS  current
+		DESCRIPTION
+               "TACACS+ authentication server is not reachable."
+		::= { zyxelTacacsServerNotifications 1 }
+		
+-- zyxelTacacsServerAccountingServerUnreachable
+		zyTacacsServerAccountingServerUnreachable	NOTIFICATION-TYPE
+		OBJECTS {
+			zyTacacsAccountingServerIndex
+		}
+		STATUS  current
+		DESCRIPTION
+               "TACACS+ accounting server is not reachable."
+		::= { zyxelTacacsServerNotifications 2 }
+
+-- zyxelTacacsServerAuthenticationServerUnreachableRecovered
+		zyTacacsServerAuthenticationServerUnreachableRecovered	NOTIFICATION-TYPE
+		OBJECTS {
+			zyTacacsAccountingServerIndex
+		}
+		STATUS  current
+		DESCRIPTION
+               "TACACS+ authentication server is recovered from unreachable."
+		::= { zyxelTacacsServerNotifications 3 }
+		
+-- zyxelTacacsServerAccountingServerUnreachableRecovered
+		zyTacacsServerAccountingServerUnreachableRecovered	NOTIFICATION-TYPE
+		OBJECTS {
+			zyTacacsAccountingServerIndex
+		}
+		STATUS  current
+		DESCRIPTION
+               "TACACS+ accounting server is recovered from unreachable."
+		::= { zyxelTacacsServerNotifications 4 }
+
+
+END
+
