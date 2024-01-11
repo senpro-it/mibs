@@ -1,0 +1,117 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-IF-MIB.mib
+-- Revision 1.5  2013/12/06 
+
+ZYXEL-IF-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	RowStatus
+		FROM SNMPv2-TC			-- RFC2579
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelIf MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for interface"
+		::= { esMgmt 27 }	
+		
+ 	zyxelIfSetup     		OBJECT IDENTIFIER ::= { zyxelIf 1 }		
+
+-- ******************************************************************
+-- *
+-- 27.Interface Setup mib
+-- *
+-- ****************************************************************** 
+  
+-- * 
+-- * INTERFACE Table
+-- *         
+    	
+    	zyIfMaxNumberOfVlanIfs OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+        "The maximum number of VLAN interfaces that can be created."
+        ::= { zyxelIfSetup 1 }
+           
+       	zyIfMaxNumberOfLoopbackIfs OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+        "The maximum number of loopback interfaces that can be created."
+        ::= { zyxelIfSetup 2 }
+          
+		zyxelIfTable OBJECT-TYPE
+	 	SYNTAX      SEQUENCE OF ZyxelIfEntry
+	    MAX-ACCESS  not-accessible
+	    STATUS      current
+	    DESCRIPTION
+	    "The table contains interface configuration."              
+        ::= { zyxelIfSetup 3 }  
+    
+    	zyxelIfEntry OBJECT-TYPE
+        SYNTAX      ZyxelIfEntry
+        MAX-ACCESS  not-accessible
+        STATUS      current
+        DESCRIPTION
+        "An entry contains interface configuration."
+        INDEX {
+            zyIfType,
+            zyIfId                 
+        }
+    	::= { zyxelIfTable 1 }
+
+    	ZyxelIfEntry ::=
+        SEQUENCE {
+            zyIfType		INTEGER, 
+            zyIfId        	INTEGER,
+            zyIfRowStatus	RowStatus
+        } 
+    
+    	zyIfType OBJECT-TYPE
+        SYNTAX  INTEGER{
+ 	        vlan(1),
+ 	        loopback(2)         
+ 	    } 
+        MAX-ACCESS  not-accessible
+        STATUS      current
+        DESCRIPTION
+         "There are two different types for interface. VLAN type is used for IPv6 interface, 
+		  loopback type is used for IPv4 loopback interface."
+    	::= { zyxelIfEntry 1 }
+
+    	zyIfId OBJECT-TYPE
+        SYNTAX      INTEGER
+        MAX-ACCESS  not-accessible
+        STATUS      current
+        DESCRIPTION
+         "A unique value which is greater than zero for each interface."
+    	::= { zyxelIfEntry 2 }
+
+    	zyIfRowStatus OBJECT-TYPE
+        SYNTAX      RowStatus
+        MAX-ACCESS  read-create
+        STATUS      current
+        DESCRIPTION
+         "This object allows entry to be created and deleted an interface entry."            
+        ::= { zyxelIfEntry 3 }
+END
+

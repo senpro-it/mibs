@@ -1,0 +1,86 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-DVMRP-MIB.mib
+-- Revision 1.4  2013/12/06 
+
+ZYXEL-DVMRP-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	zyRouteDomainIpAddress, zyRouteDomainIpMaskBits
+		FROM ZYXEL-IP-FORWARD-MIB
+		
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelDvmrp MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for Distance Vector Multicast Routing Protocol (DVMRP)"
+		::= { esMgmt 23 }
+		
+	zyxelDvmrpSetup     			OBJECT IDENTIFIER ::= { zyxelDvmrp 1 }		
+
+        zyDvmrpState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "Enable/Disable DVMRP on the switch."
+        ::= { zyxelDvmrpSetup 1 }
+        
+        zyDvmrpThreshold OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "The maximum time to live value. This applies only to multicast traffic this switch sends out."
+        ::= { zyxelDvmrpSetup 2 }        
+        
+		zyxelDvmrpRouteDomainTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelDvmrpRouteDomainEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+        "The table contains DVMRP configuration."
+        ::= { zyxelDvmrpSetup 3 }
+        
+		zyxelDvmrpRouteDomainEntry OBJECT-TYPE
+        SYNTAX	ZyxelDvmrpRouteDomainEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+		"An entry contains DVMRP configuration."
+        INDEX          	{ zyRouteDomainIpAddress, zyRouteDomainIpMaskBits }
+        ::= { zyxelDvmrpRouteDomainTable 1 }
+
+        ZyxelDvmrpRouteDomainEntry ::=
+           SEQUENCE {
+        	zyDvmrpRouteDomainState		EnabledStatus
+           }
+                   
+        zyDvmrpRouteDomainState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "Enable/Disable DVMRP on this IP routing domain."
+        ::= { zyxelDvmrpRouteDomainEntry 1 }
+
+END
+

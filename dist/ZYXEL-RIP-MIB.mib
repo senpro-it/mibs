@@ -1,0 +1,127 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-RIP-MIB.mib
+-- Revision 1.6  2016/03/03 
+
+ZYXEL-RIP-MIB DEFINITIONS ::= BEGIN
+
+	 IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	zyRouteDomainIpAddress, zyRouteDomainIpMaskBits		
+		FROM ZYXEL-IP-FORWARD-MIB
+	
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelRip MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for Routing Information Protocol (RIP)"
+		::= { esMgmt 74 }
+		
+	zyxelRipSetup     		OBJECT IDENTIFIER ::= { zyxelRip 1 }
+	zyxelRipNotifications   OBJECT IDENTIFIER ::= { zyxelRip 2 }
+
+
+  
+-- *******************************************************************
+-- *
+-- * zyxelRipSetup
+-- *
+-- *******************************************************************
+
+-- zyxelRipState
+		zyRipState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                    "Enabled/Disabled RIP on the Switch."
+        ::= { zyxelRipSetup 1 }
+
+-- zyxelRipDistance
+		zyRipDistance OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                    "The administrative distance of RIP routes."
+        ::= { zyxelRipSetup 2 }
+		
+-- zyxelRipRouteDomainTable
+		zyxelRipRouteDomainTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelRipRouteDomainEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+					"The table contains RIP route domain configuration."
+        ::= { zyxelRipSetup 3 }
+
+		zyxelRipRouteDomainEntry OBJECT-TYPE
+        SYNTAX	ZyxelRipRouteDomainEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+					"An entry contains RIP route domain configuration."
+        INDEX          	{ zyRouteDomainIpAddress, zyRouteDomainIpMaskBits }
+        ::= { zyxelRipRouteDomainTable 1 }
+		
+		
+        ZyxelRipRouteDomainEntry ::=
+		SEQUENCE {
+        	zyRipRouteDomainDirection	INTEGER,
+        	zyRipRouteDomainVersion		INTEGER      	
+        }
+
+        zyRipRouteDomainDirection OBJECT-TYPE
+        SYNTAX  INTEGER {
+        	none(0),
+        	outgoing(1),
+        	incoming(2),
+        	both(3)
+        }
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"RIP direction which controls the sending and receiving of RIP packet."
+        ::= { zyxelRipRouteDomainEntry 1 }
+		
+	    zyRipRouteDomainVersion OBJECT-TYPE
+        SYNTAX  INTEGER {
+        	v1(0),
+        	v2b(1),
+        	v2m(2)
+        }        
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"RIP version which controls the format and the broadcasting method of the RIP packets that the switch sends."
+        ::= { zyxelRipRouteDomainEntry 2 }
+
+-- *******************************************************************
+-- *
+-- * zyxelRipNotifications
+-- *
+-- *******************************************************************	
+       zyRipExceedMaxDynamicRoute NOTIFICATION-TYPE
+	   STATUS  current
+       DESCRIPTION
+       "Received dynamic route is over the max route"
+       ::= { zyxelRipNotifications 1 }
+	
+END   

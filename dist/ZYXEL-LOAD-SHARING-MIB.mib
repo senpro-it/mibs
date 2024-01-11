@@ -1,0 +1,79 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-LOAD-SHARING-MIB.mib
+-- Revision 1.7  2016/08/12 
+
+ZYXEL-LOAD-SHARING-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelLoadSharing MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for load sharing"
+		::= { esMgmt 44 }
+		
+	zyxelLoadSharingSetup	     	OBJECT IDENTIFIER ::= { zyxelLoadSharing 1 }	                      
+        
+        zyLoadSharingState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Enable/Disable IP load-sharing on the Switch."
+        ::= { zyxelLoadSharingSetup 1 }
+
+        zyLoadSharingCriteria OBJECT-TYPE
+        SYNTAX  INTEGER{
+			 srcIp(1),
+			 srcDstIp(2)
+		}
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"The switch selects the criteria to determine the routing path for a packet."
+        ::= { zyxelLoadSharingSetup 2 }  
+        
+        zyLoadSharingAgingTime OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"The polling time of resolved next-hops for equal-cost multipath routes."
+        ::= { zyxelLoadSharingSetup 3 } 
+        
+        zyLoadSharingDiscoverTime OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"The polling time of unresolved next-hops for equal-cost multipath routes."
+        ::= { zyxelLoadSharingSetup 4 }                                              
+
+        zyLoadSharingMaxPaths OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Set equal-cost multipath maximum paths."
+        ::= { zyxelLoadSharingSetup 5 }
+		
+END

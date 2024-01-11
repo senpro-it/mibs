@@ -1,0 +1,60 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-EXTERNAL-ALARM-MIB.mib
+-- Revision 1.4  2013/12/06 
+
+ZYXEL-EXTERNAL-ALARM-MIB DEFINITIONS ::= BEGIN
+
+     IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+
+	NOTIFICATION-TYPE
+		FROM SNMPv2-SMI
+		
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelExternalAlarm MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for external alarm"
+		::= { esMgmt 25 }	
+
+	zyxelExternalAlarmTrapInfoObjects  	OBJECT IDENTIFIER ::= { zyxelExternalAlarm 1 } 
+	zyxelExternalAlarmNotifications		OBJECT IDENTIFIER ::= { zyxelExternalAlarm 2 }			
+
+--  25.ExternalAlarm
+	   
+	   	zyExternalAlarmTrapAlarmId OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-only
+        STATUS  current  
+       	DESCRIPTION
+        "This trap displays which ID of external alarm is detected."
+        ::= { zyxelExternalAlarmTrapInfoObjects 1 }
+      
+	   
+	   zyExternalAlarmDetect NOTIFICATION-TYPE  
+	   OBJECTS {
+			zyExternalAlarmTrapAlarmId
+       }
+	   STATUS  current
+       DESCRIPTION
+       "External alarm is detected."
+       ::= { zyxelExternalAlarmNotifications 1 }
+
+
+		
+  END
+

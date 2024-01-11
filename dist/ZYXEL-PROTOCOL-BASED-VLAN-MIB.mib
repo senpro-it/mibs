@@ -1,0 +1,136 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-PROTOCOL-BASED-VLAN-MIB.mib
+-- Revision 1.4  2013/12/06 
+
+ZYXEL-PROTOCOL-BASED-VLAN-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	RowStatus
+		FROM SNMPv2-TC			-- RFC2579
+		
+	DisplayString                                          
+	  	FROM SNMPv2-TC
+
+	dot1dBasePort
+       	FROM BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelProtocolBasedVlan MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for protocol-based VLAN"
+		::= { esMgmt 69 }
+
+	zyxelProtocolBasedVlanSetup     OBJECT IDENTIFIER ::= { zyxelProtocolBasedVlan 1 }
+	
+		
+--  32.protocol-based VLAN
+	 
+	 	
+        zyProtocolBasedVlanMaxNumberOfVlans OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+                      	"The maximum number of protocol based VLANs that can be created"
+        ::= { zyxelProtocolBasedVlanSetup 1 }
+	
+	    zyxelProtocolBasedVlanTable  OBJECT-TYPE
+	    SYNTAX	SEQUENCE OF ZyxelProtocolBasedVlanEntry 
+	    MAX-ACCESS  not-accessible
+	    STATUS  current
+	    DESCRIPTION
+	             	"The table contains protocol based VLAN configuration. "
+	    ::= { zyxelProtocolBasedVlanSetup 2 }	
+
+		zyxelProtocolBasedVlanEntry  OBJECT-TYPE
+        SYNTAX	ZyxelProtocolBasedVlanEntry 
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+        			"An entry contains protocol based VLAN configuration."
+        INDEX          	{ dot1dBasePort, zyProtocolBasedVlanPacketType, zyProtocolBasedVlanEthernetType }
+        ::= { zyxelProtocolBasedVlanTable 1 }
+
+        ZyxelProtocolBasedVlanEntry ::=
+           SEQUENCE {
+        	zyProtocolBasedVlanPacketType	INTEGER,
+        	zyProtocolBasedVlanEthernetType	INTEGER,
+        	zyProtocolBasedVlanName			DisplayString,
+        	zyProtocolBasedVlanVid			INTEGER,
+        	zyProtocolBasedVlanPriority		INTEGER,
+        	zyProtocolBasedVlanRowStatus	RowStatus
+           }
+
+        zyProtocolBasedVlanPacketType OBJECT-TYPE
+        SYNTAX  INTEGER {      
+        	etherII(1),
+        	snap(2),
+        	llc(3)
+        }
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+                      	"There are several types of Ethernet frames. The different frame types have different 
+                      	formats and MTU values, but can coexist on the same physical medium."
+        ::= { zyxelProtocolBasedVlanEntry 1 }
+
+        zyProtocolBasedVlanEthernetType OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+                      	"The predefined protocol in this protocol based VLAN. For example, 
+                      	the IP protocol in hexadecimal notation is 0800, and in decimal is 2048."
+        ::= { zyxelProtocolBasedVlanEntry 2 }
+
+        zyProtocolBasedVlanName OBJECT-TYPE
+        SYNTAX  DisplayString (SIZE (0..32))
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      	"Type a descriptive name that identifies this protocol based VLAN."
+        ::= { zyxelProtocolBasedVlanEntry 3 }
+
+        zyProtocolBasedVlanVid OBJECT-TYPE
+        SYNTAX  INTEGER (1..4094)
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      	"Enter the ID of a VLAN to which the port belongs. This must be an existing VLAN which you 
+                      	defined on switch."
+        ::= { zyxelProtocolBasedVlanEntry 4 }
+
+        zyProtocolBasedVlanPriority OBJECT-TYPE
+        SYNTAX  INTEGER (0..7)
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+                      	"Enter the priority level that the Switch will assign to frames belonging to this VLAN."
+        ::= { zyxelProtocolBasedVlanEntry 5 }
+
+        zyProtocolBasedVlanRowStatus OBJECT-TYPE
+        SYNTAX  RowStatus
+        MAX-ACCESS  read-create
+        STATUS  current
+        DESCRIPTION
+                      	"This object allows entries to be created and deleted from the protocol based VLAN table"
+        ::= { zyxelProtocolBasedVlanEntry 6 } 
+ END
+

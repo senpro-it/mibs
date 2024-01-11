@@ -1,0 +1,85 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-IGMP-MIB.mib
+-- Revision 1.6  2013/12/06 
+
+ZYXEL-IGMP-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+  zyRouteDomainIpAddress, zyRouteDomainIpMaskBits		
+		FROM ZYXEL-IP-FORWARD-MIB
+		
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelIgmp MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for Internet Group Management Protocol (IGMP)"
+		::= { esMgmt 29 }	
+
+	zyxelIgmpSetup     		OBJECT IDENTIFIER ::= { zyxelIgmp 1 }		
+
+        zyIgmpState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "Enable/Disable IGMP on the switch."
+        ::= { zyxelIgmpSetup 1 }
+
+-- 		routerDomainIpTable
+        zyxelIgmpRouteDomainTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelIgmpRouteDomainEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+        "The table contains IGMP route domain configuration."
+        ::= { zyxelIgmpSetup 2 }
+        
+		zyxelIgmpRouteDomainEntry OBJECT-TYPE
+        SYNTAX	ZyxelIgmpRouteDomainEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+		"An entry contains IGMP route domain configuration."
+        INDEX          	{ zyRouteDomainIpAddress, zyRouteDomainIpMaskBits }
+        ::= { zyxelIgmpRouteDomainTable 1 }
+
+        ZyxelIgmpRouteDomainEntry ::=
+        SEQUENCE {
+        	zyIgmpRouteDomainVersion	INTEGER
+            }   
+           
+        zyIgmpRouteDomainVersion OBJECT-TYPE
+        SYNTAX  INTEGER {
+        	none(0),
+        	igmpV1(1),
+        	igmpV2(2),
+        	igmpV3(3)
+        }
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "IGMP version which controls the format and the multicasting method of the IGMP packets that the switch sends."
+        ::= { zyxelIgmpRouteDomainEntry 1 }
+
+
+END
+

@@ -1,0 +1,88 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-PORT-ISOLATION-MIB.mib
+-- Revision 1.5  2013/12/06
+
+ZYXEL-PORT-ISOLATION-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	dot1dBasePort
+       	FROM BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelPortIsolation MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for port isolation"
+		::= { esMgmt 64 }
+		
+	zyxelPortIsolationSetup     OBJECT IDENTIFIER ::= { zyxelPortIsolation 1 }
+	
+	  
+-- *******************************************************************
+-- *
+-- * zyxelPortIsolationSetup
+-- *
+-- *******************************************************************
+
+-- zyxelPortIsolationPortTable
+        zyxelPortIsolationPortTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelPortIsolationPortEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+			"The table contains port isolation configuration. "
+        ::= { zyxelPortIsolationSetup 1 }
+        
+		zyxelPortIsolationPortEntry OBJECT-TYPE
+        SYNTAX	ZyxelPortIsolationPortEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+			"An entry contains port isolation configuration. "
+        INDEX          	{ dot1dBasePort }
+        ::= { zyxelPortIsolationPortTable 1 }
+
+        ZyxelPortIsolationPortEntry ::=
+           SEQUENCE {
+        	zyPortIsolationPortState				EnabledStatus
+           }
+
+        zyPortIsolationPortState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Enable/Disable Port isolation on the port. Enable to allow this port to communicate only with the CPU 
+			management port and the ports on which the isolation feature is not enabled. "
+        ::= { zyxelPortIsolationPortEntry 1 }
+
+        zyPortIsolationSmartIsolationState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Enable/Disable smart Port isolation on the switch. The designated port(s) then becomes the isolated 
+			port. Smart isolation allows you to prevent isolated ports on different switch from transmitting traffic 
+			to each other."
+        ::= { zyxelPortIsolationSetup 2 }	
+
+END 

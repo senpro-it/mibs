@@ -1,0 +1,75 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-LLDP-MIB.mib
+-- Revision 1.5  2013/12/06 
+
+ZYXEL-LLDP-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+		
+	PortList
+		FROM  Q-BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelLldp MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for Link Layer Discovery Protocol (LLDP)"
+		::= { esMgmt 43 }
+		
+	zyxelLldpSetup     		OBJECT IDENTIFIER ::= { zyxelLldp 1 }                   
+	zyxelLldpStatus    		OBJECT IDENTIFIER ::= { zyxelLldp 2 }                  
+        
+    zyLldpState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        	"Enable/Disable LLDP on the switch.
+			The Link Layer Discover Protocol (LLDP) is to discover and make available physical topology 
+			information for network management. This protocol will advertise information useful for 
+			discovering pertinent information about a remote port and to populate topology MIB."
+        ::= { zyxelLldpSetup 1 }
+        
+	zyLldpRemoteInfoClear OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+		"Clear all the LLDP remote information."
+        ::= { zyxelLldpStatus 1 }
+       
+	zyLldpRemoteInfoClearPorts OBJECT-TYPE
+        SYNTAX  PortList
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+		"Clear the LLDP remote informationof of the port(s)."  
+        ::= { zyxelLldpStatus 2 }
+
+	zyLldpStatisticsClear OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+		"Clear all the LLDP statistics."
+        ::= { zyxelLldpStatus 3 }
+        
+END

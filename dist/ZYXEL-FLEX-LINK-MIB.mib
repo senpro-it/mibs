@@ -1,0 +1,230 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+ZYXEL-FLEX-LINK-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+
+	RowStatus
+		FROM SNMPv2-TC			-- RFC2579
+
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI   
+
+	dot1dBasePort
+		FROM BRIDGE-MIB
+
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelFlexLink MODULE-IDENTITY
+		LAST-UPDATED	"202104060000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			"www.zyxel.com"	   
+		DESCRIPTION
+			"The subtree for Flex Link"
+		::= { esMgmt 124 }
+	
+	zyxelFlexLinkSetup   			OBJECT IDENTIFIER ::= { zyxelFlexLink 1 }   
+	zyxelFlexLinkStatus    			OBJECT IDENTIFIER ::= { zyxelFlexLink 2 }
+	zyxelFlexLinkTrapInfoObject    	OBJECT IDENTIFIER ::= { zyxelFlexLink 3 }	
+	zyxelFlexLinkNotifications    	OBJECT IDENTIFIER ::= { zyxelFlexLink 4 }
+--
+--
+--  124.zyxelFlexLink
+--
+--
+
+--        
+        zyFlexLinkMaxNumberOfPair OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+			"The maximum number of entries that can be created"
+        ::= { zyxelFlexLinkSetup 1 }
+        
+--  	zyxelFlexLinkPairTable        
+        
+        zyxelFlexLinkPairTable	OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelFlexLinkPairEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+			"The table contains trust flex link pair configuration."
+        ::= { zyxelFlexLinkSetup 2 }
+        
+		zyxelFlexLinkPairEntry OBJECT-TYPE
+        SYNTAX	ZyxelFlexLinkPairEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+        "An entry contains flex link pair configuration."
+        INDEX          	{ zyFlexLinkPairPrimaryPort}
+        ::= { zyxelFlexLinkPairTable 1 }
+
+        ZyxelFlexLinkPairEntry ::=
+           SEQUENCE {
+           	zyFlexLinkPairPrimaryPort			INTEGER,
+           	zyFlexLinkPairBackupPort			INTEGER,
+           	zyFlexLinkPairPreemption			EnabledStatus,
+			zyFlexLinkPairPreemptionDelayTime	INTEGER,
+        	zyFlexLinkPairRowStatus				RowStatus
+           }
+
+        zyFlexLinkPairPrimaryPort OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+			"The primary port ID."
+        ::= { zyxelFlexLinkPairEntry 1 }
+  
+        zyFlexLinkPairBackupPort OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Set/Get backup port."
+        ::= { zyxelFlexLinkPairEntry 2 }
+
+        zyFlexLinkPairPreemption OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Enable/Disable preemption mode."
+        ::= { zyxelFlexLinkPairEntry 3 }
+
+        zyFlexLinkPairPreemptionDelayTime OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+			"Set/Get preemption delay time."
+        ::= { zyxelFlexLinkPairEntry 4 }
+		
+        zyFlexLinkPairRowStatus OBJECT-TYPE
+        SYNTAX  RowStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+		"The object to manage this RowStatus entry.
+                 
+        This object must be set to 'creatAndGo' to  
+        create an entry and set to 'destroy' to delete an 
+        entry."
+        ::= { zyxelFlexLinkPairEntry 5 }
+
+--		zyxelFlexLinkPairInfoTable
+
+        zyxelFlexLinkPairInfoTable OBJECT-TYPE
+        SYNTAX	SEQUENCE OF ZyxelFlexLinkPairInfoEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+		"The table contains flex link information."
+        ::= { zyxelFlexLinkStatus 1 }
+        
+		zyxelFlexLinkPairInfoEntry OBJECT-TYPE
+        SYNTAX	ZyxelFlexLinkPairInfoEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+        	"An entry contains flex link information."
+        INDEX          	{ zyFlexLinkPairInfoPrimaryPort }
+        ::= { zyxelFlexLinkPairInfoTable 1 }
+
+        ZyxelFlexLinkPairInfoEntry ::=
+           SEQUENCE {
+			zyFlexLinkPairInfoPrimaryPort			INTEGER,
+			zyFlexLinkPairInfoPrimaryPortState		INTEGER,
+			zyFlexLinkPairInfoBackupPort			INTEGER,
+			zyFlexLinkPairInfoBackupPortState		INTEGER	
+           }
+
+        zyFlexLinkPairInfoPrimaryPort OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+        "This field displays the primary port."
+        ::= { zyxelFlexLinkPairInfoEntry 1 }
+
+        zyFlexLinkPairInfoPrimaryPortState OBJECT-TYPE
+        SYNTAX  INTEGER{
+			up(1),
+			down(2),
+			standby(3)
+		}
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+        "This field displays the primary port state."
+        ::= { zyxelFlexLinkPairInfoEntry 2 }
+
+        zyFlexLinkPairInfoBackupPort OBJECT-TYPE
+		SYNTAX 	INTEGER
+        MAX-ACCESS	read-only
+        STATUS	current
+        DESCRIPTION	
+        "This field displays the backup port."
+		::= { zyxelFlexLinkPairInfoEntry 3 }     
+	
+        zyFlexLinkPairInfoBackupPortState OBJECT-TYPE
+        SYNTAX  INTEGER{
+			up(1),
+			down(2),
+			standby(3)
+		}
+        MAX-ACCESS  read-only
+        STATUS  current
+        DESCRIPTION
+        "This field displays the backup port state."
+        ::= { zyxelFlexLinkPairInfoEntry 4 } 
+            
+--		zyxelFlexLinkTrapInfoObject
+
+		zyFlexLinkTrapPort OBJECT-TYPE
+        SYNTAX  INTEGER
+        MAX-ACCESS   read-only
+        STATUS  current
+        DESCRIPTION
+		"This trap displays flex link detect on which port."             
+        ::= { zyxelFlexLinkTrapInfoObject 1 } 
+
+		zyFlexLinkTrapPortState OBJECT-TYPE
+        SYNTAX  INTEGER{
+			up(1),
+			down(2),
+			standby(3)
+		}
+        MAX-ACCESS   read-only
+        STATUS  current
+        DESCRIPTION
+		"This trap displays which port change state."             
+        ::= { zyxelFlexLinkTrapInfoObject 2 } 
+		
+--		zyxelFlexLinkNotifications
+
+		zyFlexLinkPortStateChange NOTIFICATION-TYPE
+		OBJECTS {
+				zyFlexLinkTrapPort,
+				zyFlexLinkTrapPortState
+		}       
+		STATUS  current
+		DESCRIPTION
+		"A notification is generated when the value of zyFlexLinkTrapPortState."
+		::= { zyxelFlexLinkNotifications 1 }
+		
+END

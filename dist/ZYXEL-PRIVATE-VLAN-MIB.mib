@@ -1,0 +1,144 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-PRIVATE-VLAN-MIB.mib
+-- Revision 1.8  2013/12/06 
+
+ZYXEL-PRIVATE-VLAN-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelPrivateVlan MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for private VLAN"
+		::= { esMgmt 68 }  
+		
+	zyxelPrivateVlanSetup   OBJECT IDENTIFIER ::= { zyxelPrivateVlan 1 }
+
+
+-- zyxelPrivateVlanTable
+		zyxelPrivateVlanTable OBJECT-TYPE
+		SYNTAX      SEQUENCE OF ZyxelPrivateVlanEntry
+        MAX-ACCESS  not-accessible
+		STATUS      current
+		DESCRIPTION
+					"The table contains Private VLAN type and associated secondary VLAN"       
+        ::= { zyxelPrivateVlanSetup 1 }
+
+		zyxelPrivateVlanEntry OBJECT-TYPE
+        SYNTAX      ZyxelPrivateVlanEntry
+        MAX-ACCESS  not-accessible
+        STATUS      current
+        DESCRIPTION 
+					"An entry contains Private VLAN type and associated secondary VLAN configuration"        
+    	INDEX { zyPrivateVlanType }
+		::= { zyxelPrivateVlanTable 1 }
+		ZyxelPrivateVlanEntry ::= SEQUENCE {
+            zyPrivateVlanType           		INTEGER,
+            zyPrivateVlanAssociatedVlanMap1k	OCTET STRING,
+			zyPrivateVlanAssociatedVlanMap2k	OCTET STRING,
+			zyPrivateVlanAssociatedVlanMap3k	OCTET STRING,
+			zyPrivateVlanAssociatedVlanMap4k	OCTET STRING
+		}
+
+		zyPrivateVlanType OBJECT-TYPE
+        SYNTAX      INTEGER{
+			normal(0),
+			primary(1), 
+			isolated(2), 
+			community(3)
+		}
+        MAX-ACCESS  read-write
+        STATUS      current
+        DESCRIPTION
+						"Select the VLAN type as defined for Private VLAN feature."
+    	::= { zyxelPrivateVlanEntry 1 }
+		
+		zyPrivateVlanAssociatedVlanMap1k OBJECT-TYPE
+            SYNTAX      OCTET STRING (SIZE (0..128))
+            MAX-ACCESS  read-write
+            STATUS      current
+            DESCRIPTION
+           "A string of octets containing one bit per VLAN. The
+            first octet corresponds to VLANs with VlanIndex values
+            1 through 8; the second octet to VLANs 9 through
+            16 etc.  The most significant bit of each octet
+            corresponds to the lowest VlanIndex value in that octet.
+
+            For each VLAN that is associated to this primary VLAN,
+            the bit corresponding to that VLAN is set to '1'.
+            Empty (zero) most significant octes are not mandatory."
+    	::= { zyxelPrivateVlanEntry 2 }
+		
+        zyPrivateVlanAssociatedVlanMap2k      OBJECT-TYPE
+            SYNTAX  OCTET STRING (SIZE (0..128))
+            MAX-ACCESS  read-write
+            STATUS  current
+            DESCRIPTION
+            "A string of octets containing one bit per VLAN for
+             VLANS with VlanIndex values 1024 through 2047. The
+             first octet corresponds to VLANs with VlanIndex values
+             1024 through 1031; the second octet to VLANs 1032
+             through 1039 etc.  The most significant bit of each
+             octet corresponds to the lowest VlanIndex value in that
+             octet.
+             
+             For each VLAN that is associated to this primary VLAN,
+             the bit corresponding to that VLAN is set to '1'.
+
+             Empty (zero) most significant octes are not mandatory."
+         ::= { zyxelPrivateVlanEntry 3 }
+        
+        zyPrivateVlanAssociatedVlanMap3k      OBJECT-TYPE
+            SYNTAX      OCTET STRING (SIZE (0..128))
+            MAX-ACCESS  read-write
+            STATUS      current
+            DESCRIPTION
+            "A string of octets containing one bit per VLAN for
+             VLANS with VlanIndex values 2048 through 3071. The
+             first octet corresponds to VLANs with VlanIndex values
+             of 2048 through 2055; the second octet to VLANs 2056
+             through 2063 etc.  The most significant bit of each
+             octet corresponds to the lowest VlanIndex value in that
+             octet.
+
+             For each VLAN that is associated to this primary VLAN,
+             the bit corresponding to that VLAN is set to '1'.
+
+             Empty (zero) most significant octes are not mandatory."
+         ::= { zyxelPrivateVlanEntry 4 }
+        
+        zyPrivateVlanAssociatedVlanMap4k      OBJECT-TYPE
+            SYNTAX      OCTET STRING (SIZE (0..128))
+            MAX-ACCESS  read-write
+            STATUS      current
+            DESCRIPTION
+            "A string of octets containing one bit per VLAN for
+             VLANS with VlanIndex values 3072 through 4095. The
+             first octet corresponds to VLANs with VlanIndex values
+             3072 through 3079; the second octet to VLANs 3080
+             through 3087 etc.  The most significant bit of each
+             octet corresponds to the lowest VlanIndex value in that
+             octet.
+        
+             For each VLAN that is associated to this primary VLAN,
+             the bit corresponding to that VLAN is set to '1'.
+           
+             Empty (zero) most significant octes are not mandatory."
+         ::= { zyxelPrivateVlanEntry 5 }
+END    

@@ -1,0 +1,87 @@
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+-- ZYXEL-MAC-PINNING-MIB.mib
+-- Revision 1.5  2013/12/06 
+
+ZYXEL-MAC-PINNING-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	dot1dBasePort
+       	FROM BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelMacPinning MODULE-IDENTITY
+		LAST-UPDATED	"201207010000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for MAC Pinning"
+		::= { esMgmt 92 }	
+
+	zyxelMacPinningSetup   	OBJECT IDENTIFIER ::= { zyxelMacPinning 1 }
+		
+ -- ******************************************************************
+-- *
+-- 92. zyxelMacPinningSetup
+-- *
+-- ****************************************************************** 
+                               
+        zyMacPinningState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "Enable/Disable MAC pinning on the switch."
+        ::= { zyxelMacPinningSetup 1 }
+
+                                               
+-- 		zyxelMacPinningPortTable
+
+		zyxelMacPinningPortTable OBJECT-TYPE
+		SYNTAX	SEQUENCE OF ZyxelMacPinningPortEntry
+        MAX-ACCESS  not-accessible
+        STATUS  current
+        DESCRIPTION
+        "The table contains MAC pinning port configuration."
+        ::= { zyxelMacPinningSetup 2 }
+        
+		zyxelMacPinningPortEntry OBJECT-TYPE
+        SYNTAX	ZyxelMacPinningPortEntry
+        MAX-ACCESS	not-accessible
+        STATUS	current
+        DESCRIPTION    	
+		"An entry contains MAC pinning port configuration."
+        INDEX          	{ dot1dBasePort }
+        ::= { zyxelMacPinningPortTable 1 }
+     
+		ZyxelMacPinningPortEntry ::=
+		SEQUENCE {
+			zyMacPinningPortState	 INTEGER
+		}
+
+        zyMacPinningPortState OBJECT-TYPE
+        SYNTAX  EnabledStatus
+        MAX-ACCESS  read-write
+        STATUS  current
+        DESCRIPTION
+        "Enable/Disable MAC pinning on the port."
+        ::= { zyxelMacPinningPortEntry 1 }
+
+END
+
