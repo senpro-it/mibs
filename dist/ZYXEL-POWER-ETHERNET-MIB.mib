@@ -476,7 +476,7 @@ ZYXEL-POWER-ETHERNET-MIB DEFINITIONS ::= BEGIN
 		zyPoeAutoPdRecoveryPortMode OBJECT-TYPE
         SYNTAX	INTEGER {
         	lldp(1),
-			ping(2)
+			ping(2),
 			onvif(3)
        	}
         MAX-ACCESS	read-write
