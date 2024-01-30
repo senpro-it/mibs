@@ -43,154 +43,154 @@ uptime    OBJECT IDENTIFIER ::= { appliance 3 }
 files     OBJECT IDENTIFIER ::= { appliance 4 }
 
 -- Name mappings: reddoxx.props.* (= ...enterprises.31581.22.*)
-SmtpReceiverConnectionsIn OBJECT-TYPE
+smtpReceiverConnectionsIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 1 }
 
-SmtpReceiverConnectionsOut OBJECT-TYPE
+smtpReceiverConnectionsOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 2 }
 
-SmtpReceiverMessagesReceivedIn OBJECT-TYPE
+smtpReceiverMessagesReceivedIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 3 }
 
-SmtpReceiverMessagesReceivedOut OBJECT-TYPE
+smtpReceiverMessagesReceivedOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 4 }
 
-SmtpReceiverBytesReceivedIn OBJECT-TYPE
+smtpReceiverBytesReceivedIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 5 }
 
-SmtpReceiverBytesReceivedOut OBJECT-TYPE
+smtpReceiverBytesReceivedOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 6 }
 
-SmtpReceiverActiveConnections OBJECT-TYPE
+smtpReceiverActiveConnections OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 7 }
 
-RejectedMessagesBecauseIpBlacklisted OBJECT-TYPE
+rejectedMessagesBecauseIpBlacklisted OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 8 }
 
-RejectedMessagesBecauseAntiSpoofing OBJECT-TYPE
+rejectedMessagesBecauseAntiSpoofing OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 9 }
 
-RejectedMessagesBecauseSpf OBJECT-TYPE
+rejectedMessagesBecauseSpf OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 10 }
 
-ValidDkimSignatures OBJECT-TYPE
+validDkimSignatures OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 11 }
 
-InvalidDkimSignatures OBJECT-TYPE
+invalidDkimSignatures OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 1 12 }
 
-SmtpSenderConnectionsIn OBJECT-TYPE
+smtpSenderConnectionsIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 1 }
 
-SmtpSenderConnectionsOut OBJECT-TYPE
+smtpSenderConnectionsOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 2 }
 
-SmtpSenderMessagesSentIn OBJECT-TYPE
+smtpSenderMessagesSentIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 3 }
 
-SmtpSenderMessagesSentOut OBJECT-TYPE
+smtpSenderMessagesSentOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 4 }
 
-SmtpSenderBytesSentIn OBJECT-TYPE
+smtpSenderBytesSentIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 5 }
 
-SmtpSenderBytesSentOut OBJECT-TYPE
+smtpSenderBytesSentOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 6 }
 
-SmtpSenderActiveConnections OBJECT-TYPE
+smtpSenderActiveConnections OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 2 7 }
 
-MessagesWaitingForProcessing OBJECT-TYPE
+messagesWaitingForProcessing OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 3 1 }
 
-MessagesWaitingForDelivery OBJECT-TYPE
+messagesWaitingForDelivery OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { props 3 2 }
 
-ArchiveQueueLength OBJECT-TYPE
+archiveQueueLength OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
@@ -198,105 +198,105 @@ DESCRIPTION ""
 ::= { props 4 1 }
 
 -- Name mappings: reddoxx.appliance.storage.* (= ...enterprises.31581.21.1.*)
-RssMemoryUsageApplianceManager OBJECT-TYPE
+rssMemoryUsageApplianceManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 1 }
 
-RssMemoryUsageMailDepot OBJECT-TYPE
+rssMemoryUsageMailDepot OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 2 }
 
-RssMemoryUsageSystemManager OBJECT-TYPE
+rssMemoryUsageSystemManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 3 }
 
-RssMemoryyUsageComplianceLog OBJECT-TYPE
+rssMemoryyUsageComplianceLog OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 4 }
 
-RssMemoryUsageSpamfinder OBJECT-TYPE
+rssMemoryUsageSpamfinder OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 5 }
 
-RssMemoryUsageClamav OBJECT-TYPE
+rssMemoryUsageClamav OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 6 }
 
-RssMemoryUsageMongoDB OBJECT-TYPE
+rssMemoryUsageMongoDB OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 7 }
 
-RssMemoryUsageHaProxy OBJECT-TYPE
+rssMemoryUsageHaProxy OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 8 }
 
-RssMemoryUsageMailSealer OBJECT-TYPE
+rssMemoryUsageMailSealer OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 9 }
 
-RssMemoryUsageSmtpReceiver OBJECT-TYPE
+rssMemoryUsageSmtpReceiver OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 10 }
 
-RssMemoryUsageSmtpSender OBJECT-TYPE
+rssMemoryUsageSmtpSender OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 11 }
 
-RssMemoryUsageLogManager OBJECT-TYPE
+rssMemoryUsageLogManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 12 }
 
-RssMemoryUsagePop3Proxy OBJECT-TYPE
+rssMemoryUsagePop3Proxy OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 13 }
 
-RssMemoryUsageReddcryptGateway OBJECT-TYPE
+rssMemoryUsageReddcryptGateway OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { storage 14 }
 
-RssMemoryUsageMailDepotIndex OBJECT-TYPE
+rssMemoryUsageMailDepotIndex OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
@@ -304,105 +304,105 @@ DESCRIPTION ""
 ::= { storage 15 }
 
 -- Name mappings: reddoxx.appliance.cpu.* (= ...enterprises.31581.21.2.*)
-CpuUsageApplianceManager OBJECT-TYPE
+cpuUsageApplianceManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 1 }
 
-CpuUsageMailDepot OBJECT-TYPE
+cpuUsageMailDepot OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 2 }
 
-CpuUsageSystemManager OBJECT-TYPE
+cpuUsageSystemManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 3 }
 
-CpuUsageComplianceLog OBJECT-TYPE
+cpuUsageComplianceLog OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 4 }
 
-CpuUsageSpamfinder OBJECT-TYPE
+cpuUsageSpamfinder OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 5 }
 
-CpuUsageClamav OBJECT-TYPE
+cpuUsageClamav OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 6 }
 
-CpuUsageMongoDB OBJECT-TYPE
+cpuUsageMongoDB OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 7 }
 
-CpuUsageHaProxy OBJECT-TYPE
+cpuUsageHaProxy OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 8 }
 
-CpuUsageMailSealer OBJECT-TYPE
+cpuUsageMailSealer OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 9 }
 
-CpuUsageSmtpReceiver OBJECT-TYPE
+cpuUsageSmtpReceiver OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 10 }
 
-CpuUsageSmtpSender OBJECT-TYPE
+cpuUsageSmtpSender OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 11 }
 
-CpuUsageLogManager OBJECT-TYPE
+cpuUsageLogManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 12 }
 
-CpuUsagePop3Proxy OBJECT-TYPE
+cpuUsagePop3Proxy OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 13 }
 
-CpuUsageReddcryptGateway OBJECT-TYPE
+cpuUsageReddcryptGateway OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { cpu 14 }
 
-CpuUsageMailDepotIndex OBJECT-TYPE
+cpuUsageMailDepotIndex OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
@@ -410,105 +410,105 @@ DESCRIPTION ""
 ::= { cpu 15 }
 
 -- Name mappings: reddoxx.appliance.uptime.* (= ...enterprises.31581.21.3.*)
-UptimeApplianceManager OBJECT-TYPE
+uptimeApplianceManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 1 }
 
-UptimeMailDepot OBJECT-TYPE
+uptimeMailDepot OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 2 }
 
-UptimeSystemManager OBJECT-TYPE
+uptimeSystemManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 3 }
 
-UptimeComplianceLog OBJECT-TYPE
+uptimeComplianceLog OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 4 }
 
-UptimeSpamfinder OBJECT-TYPE
+uptimeSpamfinder OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 5 }
 
-UptimeClamav OBJECT-TYPE
+uptimeClamav OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 6 }
 
-UptimeMongoDB OBJECT-TYPE
+uptimeMongoDB OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 7 }
 
-UptimeHaProxy OBJECT-TYPE
+uptimeHaProxy OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 8 }
 
-UptimeMailSealer OBJECT-TYPE
+uptimeMailSealer OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 9 }
 
-UptimeSmtpReceiver OBJECT-TYPE
+uptimeSmtpReceiver OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 10 }
 
-UptimeSmtpSender OBJECT-TYPE
+uptimeSmtpSender OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 11 }
 
-UptimeLogManager OBJECT-TYPE
+uptimeLogManager OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 12 }
 
-UptimePop3Proxy OBJECT-TYPE
+uptimePop3Proxy OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 13 }
 
-UptimeReddcryptGateway OBJECT-TYPE
+uptimeReddcryptGateway OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { uptime 14 }
 
-UptimeMailDepotIndex OBJECT-TYPE
+uptimeMailDepotIndex OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
@@ -516,21 +516,21 @@ DESCRIPTION ""
 ::= { uptime 15 }
 
 -- Name mappings: reddoxx.appliance.files.* (= ...enterprises.31581.21.4.*)
-OpenFilesTotal OBJECT-TYPE
+openFilesTotal OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { files 1 }
 
-OpenFilesContainer OBJECT-TYPE
+openFilesContainer OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
 ::= { files 2 }
 
-OpenFilesIndex OBJECT-TYPE
+openFilesIndex OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
