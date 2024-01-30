@@ -2,7 +2,8 @@ REDDOXX-MIB DEFINITIONS ::= BEGIN
 
 IMPORTS
 Counter32, Gauge32, Integer32, OBJECT-TYPE, enterprises, MODULE-IDENTITY, OBJECT-IDENTITY FROM SNMPv2-SMI
-TEXTUAL-CONVENTION, DisplayString, TruthValue FROM SNMPv2-TC;
+TEXTUAL-CONVENTION, DisplayString, TruthValue FROM SNMPv2-TC
+OBJECT-GROUP, MODULE-COMPLIANCE FROM SNMPv2-CONF;
 
 reddoxx MODULE-IDENTITY
      LAST-UPDATED "202401090000Z" -- 9 Jan 2024
@@ -36,11 +37,102 @@ reddoxx MODULE-IDENTITY
 
 -- Top level
 props     OBJECT IDENTIFIER ::= { reddoxx 22 }
+  smtpRec OBJECT IDENTIFIER ::= { props 1 }
+  smtpSnd OBJECT IDENTIFIER ::= { props 2 }
+  msgs    OBJECT IDENTIFIER ::= { props 3 }
+  archive OBJECT IDENTIFIER ::= { props 4 }
 appliance OBJECT IDENTIFIER ::= { reddoxx 21 }
 storage   OBJECT IDENTIFIER ::= { appliance 1 }
 cpu       OBJECT IDENTIFIER ::= { appliance 2 }
 uptime    OBJECT IDENTIFIER ::= { appliance 3 }
 files     OBJECT IDENTIFIER ::= { appliance 4 }
+
+-- Object Group definition
+reddoxxObjects OBJECT-GROUP
+OBJECTS {
+   smtpReceiverConnectionsIn,
+   smtpReceiverConnectionsOut,
+   smtpReceiverMessagesReceivedIn,
+   smtpReceiverMessagesReceivedOut,
+   smtpReceiverBytesReceivedIn,
+   smtpReceiverBytesReceivedOut,
+   smtpReceiverActiveConnections,
+   rejectedMessagesBecauseIpBlacklisted,
+   rejectedMessagesBecauseAntiSpoofing,
+   rejectedMessagesBecauseSpf,
+   validDkimSignatures,
+   invalidDkimSignatures,
+   smtpSenderConnectionsIn,
+   smtpSenderConnectionsOut,
+   smtpSenderMessagesSentIn,
+   smtpSenderMessagesSentOut,
+   smtpSenderBytesSentIn,
+   smtpSenderBytesSentOut,
+   smtpSenderActiveConnections,
+   messagesWaitingForProcessing,
+   messagesWaitingForDelivery,
+   archiveQueueLength,
+   rssMemoryUsageApplianceManager,
+   rssMemoryUsageMailDepot,
+   rssMemoryUsageSystemManager,
+   rssMemoryyUsageComplianceLog,
+   rssMemoryUsageSpamfinder,
+   rssMemoryUsageClamav,
+   rssMemoryUsageMongoDB,
+   rssMemoryUsageHaProxy,
+   rssMemoryUsageMailSealer,
+   rssMemoryUsageSmtpReceiver,
+   rssMemoryUsageSmtpSender,
+   rssMemoryUsageLogManager,
+   rssMemoryUsagePop3Proxy,
+   rssMemoryUsageReddcryptGateway,
+   rssMemoryUsageMailDepotIndex,
+   cpuUsageApplianceManager,
+   cpuUsageMailDepot,
+   cpuUsageSystemManager,
+   cpuUsageComplianceLog,
+   cpuUsageSpamfinder,
+   cpuUsageClamav,
+   cpuUsageMongoDB,
+   cpuUsageHaProxy,
+   cpuUsageMailSealer,
+   cpuUsageSmtpReceiver,
+   cpuUsageSmtpSender,
+   cpuUsageLogManager,
+   cpuUsagePop3Proxy,
+   cpuUsageReddcryptGateway,
+   cpuUsageMailDepotIndex,
+   uptimeApplianceManager,
+   uptimeMailDepot,
+   uptimeSystemManager,
+   uptimeComplianceLog,
+   uptimeSpamfinder,
+   uptimeClamav,
+   uptimeMongoDB,
+   uptimeHaProxy,
+   uptimeMailSealer,
+   uptimeSmtpReceiver,
+   uptimeSmtpSender,
+   uptimeLogManager,
+   uptimePop3Proxy,
+   uptimeReddcryptGateway,
+   uptimeMailDepotIndex,
+   openFilesTotal,
+   openFilesContainer,
+   openFilesIndex
+}
+STATUS current
+DESCRIPTION ""
+::= { snmpMIBGroups }
+
+-- productCompliances MODULE-COMPLIANCE
+-- STATUS current
+-- DESCRIPTION "All of REDDOXX objects"
+-- MODULE
+-- MANDATORY-GROUPS {
+--   reddoxxObjects
+-- }
+-- ::= { reddoxx }
 
 -- Name mappings: reddoxx.props.* (= ...enterprises.31581.22.*)
 smtpReceiverConnectionsIn OBJECT-TYPE
@@ -48,154 +140,154 @@ SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 1 }
+::= { smtpRec 1 }
 
 smtpReceiverConnectionsOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 2 }
+::= { smtpRec 2 }
 
 smtpReceiverMessagesReceivedIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 3 }
+::= { smtpRec 3 }
 
 smtpReceiverMessagesReceivedOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 4 }
+::= { smtpRec 4 }
 
 smtpReceiverBytesReceivedIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 5 }
+::= { smtpRec 5 }
 
 smtpReceiverBytesReceivedOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 6 }
+::= { smtpRec 6 }
 
 smtpReceiverActiveConnections OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 7 }
+::= { smtpRec 7 }
 
 rejectedMessagesBecauseIpBlacklisted OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 8 }
+::= { smtpRec 8 }
 
 rejectedMessagesBecauseAntiSpoofing OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 9 }
+::= { smtpRec 9 }
 
 rejectedMessagesBecauseSpf OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 10 }
+::= { smtpRec 10 }
 
 validDkimSignatures OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 11 }
+::= { smtpRec 11 }
 
 invalidDkimSignatures OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 1 12 }
+::= { smtpRec 12 }
 
 smtpSenderConnectionsIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 1 }
+::= { smtpSnd 1 }
 
 smtpSenderConnectionsOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 2 }
+::= { smtpSnd 2 }
 
 smtpSenderMessagesSentIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 3 }
+::= { smtpSnd 3 }
 
 smtpSenderMessagesSentOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 4 }
+::= { smtpSnd 4 }
 
 smtpSenderBytesSentIn OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 5 }
+::= { smtpSnd 5 }
 
 smtpSenderBytesSentOut OBJECT-TYPE
 SYNTAX      Counter32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 6 }
+::= { smtpSnd 6 }
 
 smtpSenderActiveConnections OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 2 7 }
+::= { smtpSnd 7 }
 
 messagesWaitingForProcessing OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 3 1 }
+::= { msgs 1 }
 
 messagesWaitingForDelivery OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 3 2 }
+::= { msgs 2 }
 
 archiveQueueLength OBJECT-TYPE
 SYNTAX      Gauge32
 MAX-ACCESS  read-only
 STATUS      current
 DESCRIPTION ""
-::= { props 4 1 }
+::= { archive 1 }
 
 -- Name mappings: reddoxx.appliance.storage.* (= ...enterprises.31581.21.1.*)
 rssMemoryUsageApplianceManager OBJECT-TYPE
