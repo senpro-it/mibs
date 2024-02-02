@@ -1,1 +1,43 @@
-ⴭ⁚祘䕌⁃潭浵湩捡瑩潮猠䍯牰潲慴楯渍ਭⴠ偲楶慴攠䕮瑥牰物獥⁍䥂⁤敦楮楴楯渠ഊ†ഊⴭ⁔桩猠晩汥⁤敳捲楢敳⁴桥⁚祘䕌⁃潭浵湩捡瑩潮猠䍯牰潲慴楯渠䕮瑥牰物獥⁍䥂⸍ਭⴠ䥴⁣潮瑡楮猠婹塅䰠灲潤畣瑳⁏䥄猬⁡湤⁣潭浯渠浡湡来搠潢橥捴献ഊഊഊ婙塅䰭剏啔䕒ⵍ䥂⁄䕆䥎䥔䥏乓›㨽⁂䕇䥎ഊഊ††䥍偏剔匍ਉ佂䩅䍔ⵔ奐䔍ਉॆ剏䴠华䵐瘲ⵓ䵉उभⴠ剆䌲㔷㠉ഊउഊ्佄啌䔭䥄䕎呉呙ഊउ䙒位⁓乍偶㈭卍䤍ਉഊॅ湡扬敤却慴畳ഊउ䙒位†倭䉒䥄䝅ⵍ䥂ഊഊ॥獍杭琉उഊउ䙒位⁚奘䕌ⵅ匭卍䤻ഊഊॺ祸敬副畴敲⁍佄啌䔭䥄䕎呉呙ഊउ䱁協ⵕ偄䅔䕄ढ㈰㈰〴〹〰〰娢††ഊउ佒䝁义婁呉低•䕮瑥牰物獥⁓潬畴楯渠婹塅䰢††‍ਉृ低呁䍔ⵉ乆伍ਉउ∢ठ†ഊउ䑅千剉偔䥏不ਉउ≔桥⁳畢瑲敥⁦潲⁺祸敬⁲潵瑥爢ഊउ㨺㴠笠敳䵧浴‱ㄳ⁽ഊउഊॺ祸敬副畴敲䥰副畴敆慩汯癥爉†† 佂䩅䍔⁉䑅乔䥆䥅删㨺㴠笠穹硥汒潵瑥爠㈠納ਉ穹硥汒潵瑥牉灒潵瑥䙡楬潶敲卥瑵瀉††⁏䉊䕃吠䥄䕎呉䙉䕒›㨽⁻⁺祸敬副畴敲䥰副畴敆慩汯癥爠ㄠ納ਠ†‍ਉ穹副畴敲䥰副畴敆慩汯癥牓瑡瑥⁏䉊䕃吭呙偅ഊ॓奎呁堠⁅湡扬敤却慴畳ഊ्䅘ⵁ䍃䕓匠⁲敡搭睲楴攍ਉ協䅔啓†捵牲敮琍ਉ䑅千剉偔䥏不ਉउउ≅湡扬支䑩獡扬攠䥐⁒潵瑥⁆慩汯癥爮∍ਉ㨺㴠笠穹硥汒潵瑥牉灒潵瑥䙡楬潶敲卥瑵瀠ㄠ納਍੅乄ഊ
+-- ZyXEL Communications Corporation
+-- Private Enterprise MIB definition 
+  
+-- This file describes the ZyXEL Communications Corporation Enterprise MIB.
+-- It contains ZyXEL products OIDs, and common managed objects.
+
+
+ZYXEL-ROUTER-MIB DEFINITIONS ::= BEGIN
+
+    IMPORTS
+	OBJECT-TYPE
+		FROM SNMPv2-SMI			-- RFC2578	
+		
+	MODULE-IDENTITY
+		FROM SNMPv2-SMI
+	
+	EnabledStatus
+		FROM  P-BRIDGE-MIB
+
+	esMgmt			
+		FROM ZYXEL-ES-SMI;
+
+	zyxelRouter MODULE-IDENTITY
+		LAST-UPDATED	"202004090000Z"    
+		ORGANIZATION "Enterprise Solution ZyXEL"     
+		CONTACT-INFO
+			""	   
+		DESCRIPTION
+			"The subtree for zyxel router"
+		::= { esMgmt 113 }
+		
+	zyxelRouterIpRouteFailover	     	OBJECT IDENTIFIER ::= { zyxelRouter 2 }
+	zyxelRouterIpRouteFailoverSetup	     OBJECT IDENTIFIER ::= { zyxelRouterIpRouteFailover 1 }
+    
+	zyRouterIpRouteFailoverState OBJECT-TYPE
+	SYNTAX  EnabledStatus
+	MAX-ACCESS  read-write
+	STATUS  current
+	DESCRIPTION
+					"Enable/Disable IP Route Failover."
+	::= { zyxelRouterIpRouteFailoverSetup 1 }
+
+END
