@@ -1,0 +1,220 @@
+ZYXEL-ES-COMMON-MGMT DEFINITIONS ::= BEGIN
+
+IMPORTS
+
+	MODULE-IDENTITY,
+	OBJECT-IDENTITY,
+	OBJECT-TYPE		FROM SNMPv2-SMI
+
+	OBJECT-GROUP,
+	MODULE-COMPLIANCE	FROM SNMPv2-CONF
+
+	DisplayString	FROM SNMPv2-TC
+	TruthValue	FROM SNMPv2-TC
+	EnabledStatus	FROM  P-BRIDGE-MIB
+
+	esMgmt			FROM ZYXEL-ES-SMI
+	esConformance	FROM ZYXEL-ES-SMI;
+
+esSysMgmt MODULE-IDENTITY
+	LAST-UPDATED    "202402270000Z"    
+	ORGANIZATION    "SenproIT GmbH"     
+	CONTACT-INFO    "Kevin Ingwersen <kevin.ingwersen@senpro.it>"
+	DESCRIPTION     "
+        This is a 'fork' of ZYXEL-ES-COMMON to work around
+        the double-usage of MODULE-IDENTITY, which is not
+        conformant with the RFC spec.
+        Thus, this document is effectively copypasta, albeit
+        some formatting. Not like ASN.1 is particularily pretty
+        as it is - and there is no styleguide either.
+        Here be dragons.
+
+        Credit goes to Zyxel for the original ZYXEL-ES-COMMON
+        and the included ZYXEL-ES-SMI.
+    "
+	::= { esMgmt 1 }
+
+MgmtAlarmStatus ::= TEXTUAL-CONVENTION
+	STATUS		current
+	DESCRIPTION
+		""
+	SYNTAX BITS {
+		sysAlarmDetected(0),
+		sysTemperatureError(1),
+		sysFanRPMError(2),
+		sysVoltageRangeError(3)
+	}
+
+sysMgmtReboot OBJECT-TYPE   
+	SYNTAX  INTEGER {  
+		running(0),
+		reboot (1)
+	}
+
+	MAX-ACCESS	read-write
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esSysMgmt 1 }
+
+sysMgmtConfigSave OBJECT-TYPE
+	SYNTAX  INTEGER {  
+		running(0),
+		save (1)
+	}
+
+	MAX-ACCESS	read-write
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esSysMgmt 2 }
+
+sysMgmtRestoreDefaultConfig OBJECT-TYPE
+	SYNTAX  INTEGER {  
+		running(0),
+		restore (1)
+	}                       
+	
+	MAX-ACCESS	read-write
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esSysMgmt 3 }
+
+sysMgmtCPUUsage OBJECT-TYPE
+	SYNTAX		INTEGER (0..100)
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"Device CPU usage (%)"
+	::= { esSysMgmt 4 }
+
+sysMgmtMemUsage OBJECT-TYPE
+	SYNTAX		INTEGER (0..100)
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"Device memory usage (%)"
+	::= { esSysMgmt 5 }
+
+sysMgmtFlashUsage OBJECT-TYPE
+	SYNTAX		INTEGER (0..100)
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"Device flash usage (%)"
+	::= { esSysMgmt 6 }
+
+sysMgmtCPU5SecUsage OBJECT-TYPE
+	SYNTAX		INTEGER (0..100)
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"Average CPU usage in 5 seconds. (%)"
+	::= { esSysMgmt 7 }
+
+sysMgmtCPU1MinUsage OBJECT-TYPE
+	SYNTAX		INTEGER (0..100)
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"Average CPU usage in 1 minute. (%)"
+	::= { esSysMgmt 8 }
+
+sysMgmtCPU5MinUsage OBJECT-TYPE
+	SYNTAX		INTEGER (0..100)
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"Average CPU usage in 5 minutes. (%)"
+	::= { esSysMgmt 9 }
+
+sysMgmtBootupConfigIndex OBJECT-TYPE
+	SYNTAX		INTEGER (1..100)
+	MAX-ACCESS	read-write
+	STATUS		current
+	DESCRIPTION
+		"The index number of bootup configuration."
+	::= { esSysMgmt 10 }
+
+
+sysMgmtBootupImageIndex OBJECT-TYPE
+	SYNTAX		INTEGER (1..100)
+	MAX-ACCESS	read-write
+	STATUS		current
+	DESCRIPTION
+		"The index number of bootup image."
+	::= { esSysMgmt 11 }
+
+-- sysMgmtAlarmStatus is obsoleted, don't use it.
+sysMgmtAlarmStatus OBJECT-TYPE
+	SYNTAX		MgmtAlarmStatus
+	MAX-ACCESS	read-only
+	STATUS		obsolete
+	DESCRIPTION
+		""
+	::= { esSysMgmt 12 }
+
+-- sysMgmtVLANControl is used only for NWA1K series and NWA1300-NJ.
+sysMgmtVLANControl OBJECT-TYPE
+    SYNTAX		EnabledStatus
+    MAX-ACCESS	read-write
+    STATUS		deprecated
+    DESCRIPTION
+        "Enable/Disable management vlan."
+    ::= { esSysMgmt 13 }
+
+-- sysMgmtVLANID is used only for NWA1K series and NWA1300-NJ.
+sysMgmtVLANID OBJECT-TYPE
+	SYNTAX		INTEGER (0..4094)
+	MAX-ACCESS	read-write
+	STATUS		deprecated
+	DESCRIPTION
+		"Management vlan id."
+	::= { esSysMgmt 14 }
+
+-- sys8021QControl is used only for NWA1K series.
+sys8021QControl OBJECT-TYPE
+    SYNTAX		EnabledStatus
+    MAX-ACCESS  read-write
+    STATUS      deprecated
+    DESCRIPTION
+        "System vlan status."
+    ::= { esSysMgmt 15 }
+
+-- sysMgmtNebulaControlCenterDiscovery is used only for switch.                               
+sysMgmtNebulaControlCenterDiscovery OBJECT-TYPE
+    SYNTAX  	EnabledStatus
+    MAX-ACCESS 	read-write
+    STATUS  	current
+    DESCRIPTION
+        "Enable/Disable nebula control center discovery."
+    ::= { esSysMgmt 19 }
+
+-- Compliance
+esBasicCompliances	OBJECT IDENTIFIER ::= { esConformance 1 }
+esBasicGroups		OBJECT IDENTIFIER ::= { esConformance 2 }
+esBasicCompliance MODULE-COMPLIANCE
+	STATUS		current
+	DESCRIPTION
+		"The compliance statement for ES common MIB"
+	MODULE -- this module
+		MANDATORY-GROUPS {
+			esSysMgmtGroup
+		}
+	::= { esBasicCompliances 1 }
+
+esSysMgmtGroup OBJECT-GROUP
+	OBJECTS {
+		sysMgmtReboot,
+		sysMgmtConfigSave,
+		sysMgmtRestoreDefaultConfig,
+		sysMgmtCPUUsage,
+		sysMgmtMemUsage
+	}
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esBasicGroups 2 }
+
+END

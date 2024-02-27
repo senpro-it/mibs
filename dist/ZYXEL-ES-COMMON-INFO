@@ -1,0 +1,231 @@
+ZYXEL-ES-COMMON-INFO DEFINITIONS ::= BEGIN
+
+IMPORTS
+
+	MODULE-IDENTITY,
+	OBJECT-IDENTITY,
+	OBJECT-TYPE		FROM SNMPv2-SMI
+
+	OBJECT-GROUP,
+	MODULE-COMPLIANCE	FROM SNMPv2-CONF
+
+	DisplayString	FROM SNMPv2-TC
+	TruthValue	FROM SNMPv2-TC
+	EnabledStatus	FROM  P-BRIDGE-MIB
+
+	esMgmt			FROM ZYXEL-ES-SMI
+	esConformance	FROM ZYXEL-ES-SMI;
+
+esSysInfo MODULE-IDENTITY
+	LAST-UPDATED    "202402270000Z"    
+	ORGANIZATION    "SenproIT GmbH"     
+	CONTACT-INFO    "Kevin Ingwersen <kevin.ingwersen@senpro.it>"
+	DESCRIPTION     "
+        This is a 'fork' of ZYXEL-ES-COMMON to work around
+        the double-usage of MODULE-IDENTITY, which is not
+        conformant with the RFC spec.
+        Thus, this document is effectively copypasta, albeit
+        some formatting. Not like ASN.1 is particularily pretty
+        as it is - and there is no styleguide either.
+        Here be dragons.
+
+        Credit goes to Zyxel for the original ZYXEL-ES-COMMON
+        and the included ZYXEL-ES-SMI.
+    "
+	::= { esMgmt 1 }
+
+SwPlatform ::= TEXTUAL-CONVENTION
+	STATUS		current
+	DESCRIPTION
+		"The indicattion of software platform.
+
+		zynos  : ZyNOS.
+		zld    : ZLD.
+		other  : Other operating system."
+
+	SYNTAX INTEGER {
+		other(1),
+		zynos(2),
+		zld(3)
+	}
+
+sysSwPlatform OBJECT-TYPE
+	SYNTAX		SwPlatform
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The software platform information."
+	::= { esSysInfo 1 }
+
+sysSwMajorVersion OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The major version of software platform."
+	::= { esSysInfo 2 }
+
+sysSwMinorVersion OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The minor version of software platform."
+	::= { esSysInfo 3 }
+
+sysSwModel OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The device model ID."
+	::= { esSysInfo 4 }
+
+sysSwPatchNumber OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The firmeare patch number."
+	::= { esSysInfo 5 }
+
+sysSwVersionString OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The detail software version."
+	::= { esSysInfo 6 }
+
+sysSwDay OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The day of software build date."
+	::= { esSysInfo 7 }
+
+sysSwMonth OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The month of software build date."
+	::= { esSysInfo 8 }
+
+sysSwYear OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The year of software build date."
+	::= { esSysInfo 9 }
+
+sysProductFamily OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The product line information."
+	::= { esSysInfo 10 }
+
+sysProductModel OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The device model name."
+	::= { esSysInfo 11 }
+
+sysProductSerialNumber OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The searial number of this device."
+	::= { esSysInfo 12 }
+
+sysHwMajorVersion OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The major version of hardware platform."
+	::= { esSysInfo 13 }
+
+sysHwMinorVersion OBJECT-TYPE
+	SYNTAX		INTEGER
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The minor version of hardware platform."
+	::= { esSysInfo 14 }
+	
+sysHwVersionString OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The detail hardware version."
+	::= { esSysInfo 15 }    
+	
+sysCountryCode OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"System Country."
+	::= { esSysInfo 16 }
+
+sysActiveSessionNum OBJECT-TYPE
+	SYNTAX		Integer32
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The number of active session."
+	::= { esSysInfo 19 }
+
+
+sysNebulaManaged OBJECT-TYPE
+	SYNTAX		TruthValue
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		"The status indicates if the device is being managed by Nebula."
+	::= { esSysInfo 20 }
+
+-- Compliance
+esBasicCompliances	OBJECT IDENTIFIER ::= { esConformance 1 }
+esBasicGroups		OBJECT IDENTIFIER ::= { esConformance 2 }
+
+esBasicCompliance MODULE-COMPLIANCE
+	STATUS		current
+	DESCRIPTION
+		"The compliance statement for ES common MIB"
+	MODULE -- this module
+		MANDATORY-GROUPS {
+			esSysInfoGroup
+		}
+	::= { esBasicCompliances 1 }
+
+esSysInfoGroup OBJECT-GROUP
+	OBJECTS {
+		sysSwPlatform,
+		sysSwMajorVersion,
+		sysSwMinorVersion,
+		sysSwModel,
+		sysSwPatchNumber,
+		sysSwVersionString,
+		sysSwDay,
+		sysSwMonth,
+		sysSwYear,
+		sysProductFamily,
+		sysProductModel,
+		sysProductSerialNumber
+	}
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esBasicGroups 1 }
+
+END
