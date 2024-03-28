@@ -82,7 +82,7 @@ sysMgmtRestoreDefaultConfig OBJECT-TYPE
 	::= { esSysMgmt 3 }
 
 sysMgmtCPUUsage OBJECT-TYPE
-	SYNTAX		INTEGER (0..100)
+	SYNTAX		Integer32(0..100)
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
@@ -90,7 +90,7 @@ sysMgmtCPUUsage OBJECT-TYPE
 	::= { esSysMgmt 4 }
 
 sysMgmtMemUsage OBJECT-TYPE
-	SYNTAX		INTEGER (0..100)
+	SYNTAX		Integer32(0..100)
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
@@ -98,7 +98,7 @@ sysMgmtMemUsage OBJECT-TYPE
 	::= { esSysMgmt 5 }
 
 sysMgmtFlashUsage OBJECT-TYPE
-	SYNTAX		INTEGER (0..100)
+	SYNTAX		Integer32(0..100)
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
@@ -106,7 +106,7 @@ sysMgmtFlashUsage OBJECT-TYPE
 	::= { esSysMgmt 6 }
 
 sysMgmtCPU5SecUsage OBJECT-TYPE
-	SYNTAX		INTEGER (0..100)
+	SYNTAX		Integer32(0..100)
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
@@ -114,7 +114,7 @@ sysMgmtCPU5SecUsage OBJECT-TYPE
 	::= { esSysMgmt 7 }
 
 sysMgmtCPU1MinUsage OBJECT-TYPE
-	SYNTAX		INTEGER (0..100)
+	SYNTAX		Integer32(0..100)
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
@@ -122,7 +122,7 @@ sysMgmtCPU1MinUsage OBJECT-TYPE
 	::= { esSysMgmt 8 }
 
 sysMgmtCPU5MinUsage OBJECT-TYPE
-	SYNTAX		INTEGER (0..100)
+	SYNTAX		Integer32(0..100)
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
@@ -130,7 +130,7 @@ sysMgmtCPU5MinUsage OBJECT-TYPE
 	::= { esSysMgmt 9 }
 
 sysMgmtBootupConfigIndex OBJECT-TYPE
-	SYNTAX		INTEGER (1..100)
+	SYNTAX		Integer32(1..100)
 	MAX-ACCESS	read-write
 	STATUS		current
 	DESCRIPTION
@@ -139,7 +139,7 @@ sysMgmtBootupConfigIndex OBJECT-TYPE
 
 
 sysMgmtBootupImageIndex OBJECT-TYPE
-	SYNTAX		INTEGER (1..100)
+	SYNTAX		Integer32(1..100)
 	MAX-ACCESS	read-write
 	STATUS		current
 	DESCRIPTION
@@ -166,7 +166,7 @@ sysMgmtVLANControl OBJECT-TYPE
 
 -- sysMgmtVLANID is used only for NWA1K series and NWA1300-NJ.
 sysMgmtVLANID OBJECT-TYPE
-	SYNTAX		INTEGER (0..4094)
+	SYNTAX		Integer32(0..4094)
 	MAX-ACCESS	read-write
 	STATUS		deprecated
 	DESCRIPTION
