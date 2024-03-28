@@ -4,17 +4,19 @@ IMPORTS
 
 	MODULE-IDENTITY,
 	OBJECT-IDENTITY,
-	OBJECT-TYPE		FROM SNMPv2-SMI
+	OBJECT-TYPE,
+	Integer32		FROM SNMPv2-SMI
 
 	OBJECT-GROUP,
 	MODULE-COMPLIANCE	FROM SNMPv2-CONF
 
-	DisplayString	FROM SNMPv2-TC
-	TruthValue	FROM SNMPv2-TC
-	EnabledStatus	FROM  P-BRIDGE-MIB
+	DisplayString,
+	TruthValue		FROM SNMPv2-TC
+	TEXTUAL-CONVENTION	FROM SNMPv2-TC
+	EnabledStatus		FROM P-BRIDGE-MIB
 
 	esMgmt			FROM ZYXEL-ES-SMI
-	esConformance	FROM ZYXEL-ES-SMI;
+	esConformance		FROM ZYXEL-ES-SMI;
 
 esSysMgmt MODULE-IDENTITY
 	LAST-UPDATED    "202402270000Z"    
@@ -32,7 +34,7 @@ esSysMgmt MODULE-IDENTITY
         Credit goes to Zyxel for the original ZYXEL-ES-COMMON
         and the included ZYXEL-ES-SMI.
     "
-	::= { esMgmt 1 }
+	::= { esMgmt 2 }
 
 MgmtAlarmStatus ::= TEXTUAL-CONVENTION
 	STATUS		current
@@ -194,6 +196,7 @@ sysMgmtNebulaControlCenterDiscovery OBJECT-TYPE
 -- Compliance
 esBasicCompliances	OBJECT IDENTIFIER ::= { esConformance 1 }
 esBasicGroups		OBJECT IDENTIFIER ::= { esConformance 2 }
+
 esBasicCompliance MODULE-COMPLIANCE
 	STATUS		current
 	DESCRIPTION
@@ -210,7 +213,18 @@ esSysMgmtGroup OBJECT-GROUP
 		sysMgmtConfigSave,
 		sysMgmtRestoreDefaultConfig,
 		sysMgmtCPUUsage,
-		sysMgmtMemUsage
+		sysMgmtMemUsage,
+		sysMgmtFlashUsage,
+		sysMgmtCPU5SecUsage,
+		sysMgmtCPU1MinUsage,
+		sysMgmtCPU5MinUsage,
+		sysMgmtBootupConfigIndex,
+		sysMgmtBootupImageIndex,
+		-- sysMgmtAlarmStatus,
+		sysMgmtVLANControl,
+		sysMgmtVLANID,
+		sys8021QControl,
+		sysMgmtNebulaControlCenterDiscovery
 	}
 	STATUS		current
 	DESCRIPTION
