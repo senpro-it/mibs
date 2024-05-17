@@ -133,12 +133,28 @@ SubscriptionStatusType ::= TEXTUAL-CONVENTION
 
 IPSecVPNConnectionType ::= TEXTUAL-CONVENTION
         STATUS				current
-        DESCRIPTION		"enumerated type for IPSec VPN Conn type"
+        DESCRIPTION		"enumerated type for IPsec VPN connections"
         SYNTAX INTEGER	{
 							host-to-host		( 1 ),
-							site-to-site		( 2 )
+							site-to-site		( 2 ),
+							tunnel-interface	( 3 )
 						}
-						
+
+IPSecVPNConnectionStatus ::= TEXTUAL-CONVENTION
+        STATUS				current
+        DESCRIPTION		"enumerated type for IPsec VPN connection status"
+        SYNTAX INTEGER  {
+							inactive		( 0 ),
+							active			( 1 ),
+							partially-active	( 2 )
+						}
+IPSecVPNActivationStatus ::= TEXTUAL-CONVENTION
+        STATUS				current
+        DESCRIPTION		"enumerated type for IPsec VPN activation status"
+        SYNTAX INTEGER  {
+							inactive		( 0 ),
+							active			( 1 )
+						}
 -- End of enums
 
 -- SFOS-XG MIB
@@ -749,7 +765,9 @@ SfosIPSecVpnTunnelEntry ::= SEQUENCE {
 	sfosIPSecVpnConnMode			DisplayString,
 	sfosIPSecVpnConnType			IPSecVPNConnectionType,
 	sfosIPSecVpnLocalgwPort			DisplayString,
-	sfosIPSecVpnActiveTunnel		Integer32
+	sfosIPSecVpnActiveTunnel		Integer32,
+	sfosIPSecVpnConnStatus			IPSecVPNConnectionStatus,
+	sfosIPSecVpnActivated			IPSecVPNActivationStatus
 }
 
 sfosIPSecVpnConnId OBJECT-TYPE
@@ -781,7 +799,7 @@ sfosIPSecVpnPolicyUsed OBJECT-TYPE
     MAX-ACCESS  read-only
     STATUS      current
     DESCRIPTION 
-        "Policy Name of IPSec tunnel"
+        "Policy Name of IPsec tunnel"
     ::= { sfosIPSecVpnTunnelEntry 4 }	
 
 sfosIPSecVpnConnMode OBJECT-TYPE
@@ -789,7 +807,7 @@ sfosIPSecVpnConnMode OBJECT-TYPE
     MAX-ACCESS  read-only
     STATUS      current
     DESCRIPTION 
-        "Connection mode of IPSec tunnel"
+        "Connection mode of IPsec tunnel"
     ::= { sfosIPSecVpnTunnelEntry 5 }	
 
 sfosIPSecVpnConnType OBJECT-TYPE
@@ -797,7 +815,7 @@ sfosIPSecVpnConnType OBJECT-TYPE
     MAX-ACCESS  read-only
     STATUS      current
     DESCRIPTION 
-        "Connection Type of IPSec Tunnel"
+        "Connection Type of IPsec Tunnel"
     ::= { sfosIPSecVpnTunnelEntry 6 }
 
 sfosIPSecVpnLocalgwPort OBJECT-TYPE
@@ -805,7 +823,7 @@ sfosIPSecVpnLocalgwPort OBJECT-TYPE
     MAX-ACCESS  read-only
     STATUS      current
     DESCRIPTION 
-        "Port name which is  used as local gateway for IPSec tunnel"
+        "Port name which is  used as local gateway for IPsec tunnel"
     ::= { sfosIPSecVpnTunnelEntry 7 }
 
 sfosIPSecVpnActiveTunnel OBJECT-TYPE
@@ -815,6 +833,22 @@ sfosIPSecVpnActiveTunnel OBJECT-TYPE
     DESCRIPTION 
         "Count of total tunnels configured"
     ::= { sfosIPSecVpnTunnelEntry 8 }
+
+sfosIPSecVpnConnStatus OBJECT-TYPE
+    SYNTAX      IPSecVPNConnectionStatus
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+         "Connection status of IPsec tunnel"
+    ::= { sfosIPSecVpnTunnelEntry 9 }
+
+sfosIPSecVpnActivated OBJECT-TYPE
+    SYNTAX      IPSecVPNActivationStatus
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+         "Activation status of IPsec tunnel"
+    ::= { sfosIPSecVpnTunnelEntry 10 }
 
 -- sfosVPNInfo.sfosIPSecVPNPolicyInfo
 
@@ -1228,6 +1262,8 @@ sfosIPSecInfoGroup OBJECT-GROUP
 	sfosIPSecVpnConnType,
 	sfosIPSecVpnLocalgwPort,
 	sfosIPSecVpnActiveTunnel,
+	sfosIPSecVpnConnStatus,
+	sfosIPSecVpnActivated,
 	sfosIPSecVpnPolicyId,
 	sfosIPSecVpnPolicyName,
 	sfosIPSecVpnPolicyKeyLife,
