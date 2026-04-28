@@ -22,8 +22,7 @@ IMPORTS
 	MODULE-COMPLIANCE	FROM SNMPv2-CONF
 
 	DisplayString	FROM SNMPv2-TC
-	TruthValue	FROM SNMPv2-TC
-	EnabledStatus	FROM  P-BRIDGE-MIB
+	TruthValue		FROM SNMPv2-TC
 
 	esMgmt			FROM ZYXEL-ES-SMI
 	esConformance			FROM ZYXEL-ES-SMI;
@@ -38,7 +37,7 @@ esSysInfo MODULE-IDENTITY
 	::= { esMgmt 1 }
 
 esSysMgmt MODULE-IDENTITY
-	LAST-UPDATED	"201709200000Z" 
+	LAST-UPDATED	"201009060000Z" 
 	ORGANIZATION "Enterprise Solution Zyxel"     
 	CONTACT-INFO
 		""	   
@@ -70,7 +69,7 @@ sysSwPlatform OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The software platform information."
+		"The software platform of this agent"
 	::= { esSysInfo 1 }
 
 sysSwMajorVersion OBJECT-TYPE
@@ -78,7 +77,7 @@ sysSwMajorVersion OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The major version of software platform."
+		""
 	::= { esSysInfo 2 }
 
 sysSwMinorVersion OBJECT-TYPE
@@ -86,7 +85,7 @@ sysSwMinorVersion OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The minor version of software platform."
+		""
 	::= { esSysInfo 3 }
 
 sysSwModel OBJECT-TYPE
@@ -94,7 +93,7 @@ sysSwModel OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The device model ID."
+		""
 	::= { esSysInfo 4 }
 
 sysSwPatchNumber OBJECT-TYPE
@@ -102,7 +101,7 @@ sysSwPatchNumber OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The firmeare patch number."
+		""
 	::= { esSysInfo 5 }
 
 sysSwVersionString OBJECT-TYPE
@@ -110,7 +109,7 @@ sysSwVersionString OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The detail software version."
+		""
 	::= { esSysInfo 6 }
 
 sysSwDay OBJECT-TYPE
@@ -118,7 +117,7 @@ sysSwDay OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The day of software build date."
+		""
 	::= { esSysInfo 7 }
 
 sysSwMonth OBJECT-TYPE
@@ -126,7 +125,7 @@ sysSwMonth OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The month of software build date."
+		""
 	::= { esSysInfo 8 }
 
 sysSwYear OBJECT-TYPE
@@ -134,7 +133,7 @@ sysSwYear OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The year of software build date."
+		""
 	::= { esSysInfo 9 }
 
 sysProductFamily OBJECT-TYPE
@@ -142,7 +141,7 @@ sysProductFamily OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The product line information."
+		""
 	::= { esSysInfo 10 }
 
 sysProductModel OBJECT-TYPE
@@ -150,7 +149,7 @@ sysProductModel OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The device model name."
+		""
 	::= { esSysInfo 11 }
 
 sysProductSerialNumber OBJECT-TYPE
@@ -158,32 +157,8 @@ sysProductSerialNumber OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"The searial number of this device."
+		""
 	::= { esSysInfo 12 }
-
-sysHwMajorVersion OBJECT-TYPE
-	SYNTAX		INTEGER
-	MAX-ACCESS	read-only
-	STATUS		current
-	DESCRIPTION
-		"The major version of hardware platform."
-	::= { esSysInfo 13 }
-
-sysHwMinorVersion OBJECT-TYPE
-	SYNTAX		INTEGER
-	MAX-ACCESS	read-only
-	STATUS		current
-	DESCRIPTION
-		"The minor version of hardware platform."
-	::= { esSysInfo 14 }
-	
-sysHwVersionString OBJECT-TYPE
-	SYNTAX		DisplayString
-	MAX-ACCESS	read-only
-	STATUS		current
-	DESCRIPTION
-		"The detail hardware version."
-	::= { esSysInfo 15 }    
 	
 sysCountryCode OBJECT-TYPE
 	SYNTAX		DisplayString
@@ -193,34 +168,6 @@ sysCountryCode OBJECT-TYPE
 		"System Country."
 	::= { esSysInfo 16 }
 
--- sysCurrentDateTime is obsoleted. don't use it.
-sysCurrentDateTime OBJECT-TYPE
-	SYNTAX		DisplayString
-	MAX-ACCESS	read-only
-	STATUS		obsolete
-	DESCRIPTION
-        	"System current date time."
-	::= { esSysInfo 17 }
-
--- sysCurrentTime is obsoleted. don't use it.
-sysCurrentTime OBJECT-TYPE
-	SYNTAX		DisplayString
-	MAX-ACCESS	read-only
-	STATUS		obsolete
-	DESCRIPTION
-		""
-	::= { esSysInfo 18 }
-
--- sysActiveSessionNum is only used in NXC5200.
-sysActiveSessionNum OBJECT-TYPE
-	SYNTAX		Integer32
-	MAX-ACCESS	read-only
-	STATUS		current
-	DESCRIPTION
-		"The number of active session."
-	::= { esSysInfo 19 }
-
-
 sysNebulaManaged OBJECT-TYPE
 	SYNTAX		TruthValue
 	MAX-ACCESS	read-only
@@ -228,6 +175,30 @@ sysNebulaManaged OBJECT-TYPE
 	DESCRIPTION
 		"The status indicates if the device is being managed by Nebula."
 	::= { esSysInfo 20 }
+
+sysIP OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esSysInfo 21 }
+	
+sysUptime OBJECT-TYPE
+	SYNTAX		TimeTicks
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esSysInfo 22 }
+
+sysUpLinkPortSpeed OBJECT-TYPE
+	SYNTAX		DisplayString
+	MAX-ACCESS	read-only
+	STATUS		current
+	DESCRIPTION
+		""
+	::= { esSysInfo 23 }
 
 -- esSysMgmt OIDs
 
@@ -283,7 +254,7 @@ sysMgmtCPUUsage OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"Device CPU usage (%)"
+		""
 	::= { esSysMgmt 4 }
 
 sysMgmtMemUsage OBJECT-TYPE
@@ -291,7 +262,7 @@ sysMgmtMemUsage OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"Device memory usage (%)"
+		""
 	::= { esSysMgmt 5 }
 
 sysMgmtFlashUsage OBJECT-TYPE
@@ -299,7 +270,7 @@ sysMgmtFlashUsage OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"Device flash usage (%)"
+		""
 	::= { esSysMgmt 6 }
 
 sysMgmtCPU5SecUsage OBJECT-TYPE
@@ -307,7 +278,7 @@ sysMgmtCPU5SecUsage OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"Average CPU usage in 5 seconds. (%)"
+		""
 	::= { esSysMgmt 7 }
 
 sysMgmtCPU1MinUsage OBJECT-TYPE
@@ -315,7 +286,7 @@ sysMgmtCPU1MinUsage OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"Average CPU usage in 1 minute. (%)"
+		""
 	::= { esSysMgmt 8 }
 
 sysMgmtCPU5MinUsage OBJECT-TYPE
@@ -323,70 +294,8 @@ sysMgmtCPU5MinUsage OBJECT-TYPE
 	MAX-ACCESS	read-only
 	STATUS		current
 	DESCRIPTION
-		"Average CPU usage in 5 minutes. (%)"
-	::= { esSysMgmt 9 }
-
-sysMgmtBootupConfigIndex OBJECT-TYPE
-	SYNTAX		INTEGER (1..100)
-	MAX-ACCESS	read-write
-	STATUS		current
-	DESCRIPTION
-		"The index number of bootup configuration."
-	::= { esSysMgmt 10 }
-
-
-sysMgmtBootupImageIndex OBJECT-TYPE
-	SYNTAX		INTEGER (1..100)
-	MAX-ACCESS	read-write
-	STATUS		current
-	DESCRIPTION
-		"The index number of bootup image."
-	::= { esSysMgmt 11 }
-
--- sysMgmtAlarmStatus is obsoleted, don't use it.
-sysMgmtAlarmStatus OBJECT-TYPE
-	SYNTAX		MgmtAlarmStatus
-	MAX-ACCESS	read-only
-	STATUS		obsolete
-	DESCRIPTION
 		""
-	::= { esSysMgmt 12 }
-
--- sysMgmtVLANControl is used only for NWA1K series and NWA1300-NJ.
-sysMgmtVLANControl OBJECT-TYPE
-    SYNTAX		EnabledStatus
-    MAX-ACCESS	read-write
-    STATUS		deprecated
-    DESCRIPTION
-        "Enable/Disable management vlan."
-    ::= { esSysMgmt 13 }
-
--- sysMgmtVLANID is used only for NWA1K series and NWA1300-NJ.
-sysMgmtVLANID OBJECT-TYPE
-	SYNTAX		INTEGER (0..4094)
-	MAX-ACCESS	read-write
-	STATUS		deprecated
-	DESCRIPTION
-		"Management vlan id."
-	::= { esSysMgmt 14 }
-
--- sys8021QControl is used only for NWA1K series.
-sys8021QControl OBJECT-TYPE
-    SYNTAX		EnabledStatus
-    MAX-ACCESS  read-write
-    STATUS      deprecated
-    DESCRIPTION
-        "System vlan status."
-    ::= { esSysMgmt 15 }
-
--- sysMgmtNebulaControlCenterDiscovery is used only for switch.                               
-sysMgmtNebulaControlCenterDiscovery OBJECT-TYPE
-    SYNTAX  	EnabledStatus
-    MAX-ACCESS 	read-write
-    STATUS  	current
-    DESCRIPTION
-        "Enable/Disable nebula control center discovery."
-    ::= { esSysMgmt 19 }        
+	::= { esSysMgmt 9 }
 
 -- compliance statements for ES-COMMON
 
